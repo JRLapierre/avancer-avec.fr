@@ -1,0 +1,22 @@
+name: Code quality check
+
+on: [push]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Cloning the code
+        uses: actions/checkout@v4
+
+      - name: Install Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.17.1'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Execute linting
+        run: npm run lint
