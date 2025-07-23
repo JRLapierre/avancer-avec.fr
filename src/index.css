@@ -1,6 +1,6 @@
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  /*supprimer les 2 prochaines lignes ?*/
+  /*Delete next two lines ?*/
   line-height: 1.5;
   font-weight: 400;
 
@@ -15,8 +15,8 @@
 }
 
 /*
-gère light mode/dark mode
-à garder ?
+Manage light mode/dark mode
+To keep ?
 */
 @media (prefers-color-scheme: dark) {
   :root {
