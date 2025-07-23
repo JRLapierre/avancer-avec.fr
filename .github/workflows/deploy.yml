@@ -33,6 +33,4 @@ jobs:
           server-dir: ${{ secrets.FTP_REMOTE_DIR }}
           dangerous-clean-slate: true
           exclude: |
-            **/inf.php
-            **/newsletter.php
-            **/test.html
+            **/php/**
