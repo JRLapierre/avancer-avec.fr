@@ -1,4 +1,5 @@
-Pour tester :  
+Test :  
 npm run dev  
 npm run lint  
-Pour déployer : npm run build  
+Deploy :  
+npm run build  
