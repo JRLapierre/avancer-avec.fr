@@ -31,6 +31,3 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./dist/
           server-dir: ${{ secrets.FTP_REMOTE_DIR }}
-          dangerous-clean-slate: true
-          exclude: |
-            **/php/**
