@@ -1,4 +1,9 @@
+body {
+  margin: 0;
+}
+
 :root {
+  margin: 0;
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   /*Delete next two lines ?*/
   line-height: 1.5;
@@ -12,15 +17,4 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-/*
-Manage light mode/dark mode
-To keep ?
-*/
-@media (prefers-color-scheme: dark) {
-  :root {
-    color: rgba(255, 255, 255, 0.87);
-    background-color: #242424;
-  }
 }
