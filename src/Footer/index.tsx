@@ -1,8 +1,8 @@
-import './styles.module.css';
+import styles from './styles.module.css';
 
 const Footer = () => {
     return (
-        <footer>
+        <footer className={styles.footer}>
             {/* Column 1 */}
             <div>
                 <h3>Où ?</h3>
