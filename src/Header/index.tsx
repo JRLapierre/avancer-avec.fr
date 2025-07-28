@@ -1,4 +1,5 @@
 import styles from './styles.module.css';
+import logo from '/public/logo.png';
 import { useEffect, useRef, useState } from 'react';
 
 
@@ -34,7 +35,7 @@ const Header = () => {
         <header>
             {/* Icon */}
             <div>
-                <img src="/public/logo.png" alt="logo" height="70"/>
+                <img src={logo} alt="logo" height="70"/>
             </div>
             {/* Title */}
             <div className={styles.title}>
