@@ -1,0 +1,10 @@
+footer {
+    background-color: black;
+    color: white;
+    /*internal arrangement*/
+    text-align: center;
+    display: flex;
+    justify-content: space-evenly;
+    /*positionning in the page*/
+    bottom: 0;
+}

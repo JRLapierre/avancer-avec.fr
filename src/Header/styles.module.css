@@ -1,0 +1,54 @@
+header {
+    background-color: black;
+    color: white;
+    /*internal arrangement*/
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    text-align: center;
+    /*keep the header on the screen*/
+    position: sticky;
+    top: 0;
+}
+
+/* Title style */
+.title {
+    font-size: 2em;
+}
+
+a {
+    margin-right: 1em;
+    color: white;
+    text-decoration: none;
+}
+
+/* Menu style */
+a:hover {
+    text-decoration: underline;
+}
+
+.menu_icon {
+    display: none
+}
+
+@media (max-width: 768px) {
+    .menu_icon {
+        display: initial;
+        margin-right: 1em;
+    }
+
+    /* Makes the default menu non visible on narrow screen */
+    .menu_vertical {
+        display: none
+    }
+
+    .menu_horisontal {
+        display: flex;
+        position: fixed;
+        background-color: black;
+        z-index: 1;
+        flex-direction: column;
+        right: 0;
+    }
+}
