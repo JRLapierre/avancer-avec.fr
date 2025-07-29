@@ -1,5 +1,13 @@
 body {
+  /*prevents auto margin*/
   margin: 0;
+  /*Background image*/
+  background-image: url("/public/background.jpg");
+  background-attachment: fixed;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+
 }
 
 /*affects only the element with the id "root"*/
