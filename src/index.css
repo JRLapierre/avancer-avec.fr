@@ -2,7 +2,7 @@ body {
   /*prevents auto margin*/
   margin: 0;
   /*Background image*/
-  background-image: url("/public/background.jpg");
+  background-image: url("/background.jpg"), url("/public/background.jpg") ; /*the first doesn't work on local*/
   background-attachment: fixed;
   background-size: cover;
   background-repeat: no-repeat;
