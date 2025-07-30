@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import styles from './styles.module.css';
 import logo from '/logo.png';
 import { useEffect, useRef, useState } from 'react';
@@ -47,9 +48,9 @@ const Header = () => {
                     Menu
                 </div>
                 <div className={menuOpen ? styles.menu_horisontal : styles.menu_vertical}>
-                    <a href='/'>Page d'accueil</a>
-                    <a href='/presentation'>Présentation</a>
-                    <a href='/blog'>Blog</a>
+                    <Link to="/">Page d'accueil</Link>
+                    <Link to="/presentation">Présentation</Link>
+                    <Link to="/blog">Blog</Link>
                 </div>
 
             </nav>
