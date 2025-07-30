@@ -1,5 +1,5 @@
 import styles from './styles.module.css';
-import logo from '/public/logo.png';
+import logo from '/logo.png';
 import { useEffect, useRef, useState } from 'react';
 
 
@@ -48,8 +48,8 @@ const Header = () => {
                 </div>
                 <div className={menuOpen ? styles.menu_horisontal : styles.menu_vertical}>
                     <a href='/'>Page d'accueil</a>
-                    <a href='#'>Présentation</a>
-                    <a href='#'>Blog</a>
+                    <a href='/presentation'>Présentation</a>
+                    <a href='/blog'>Blog</a>
                 </div>
 
             </nav>
