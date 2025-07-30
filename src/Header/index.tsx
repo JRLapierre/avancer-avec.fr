@@ -1,5 +1,5 @@
 import styles from './styles.module.css';
-import logo from '/public/logo.png';
+import logo from '/logo.png';
 import { useEffect, useRef, useState } from 'react';
 
 
