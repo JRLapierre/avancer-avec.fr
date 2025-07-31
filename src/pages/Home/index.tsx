@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./styles.module.css"
-import welcomeImage from '../../assets/homepage/chemin-texte.png'
+import welcomeImage from '../../assets/page/Home/chemin-texte.png'
 
 const Home: React.FC = () => {
     return (
