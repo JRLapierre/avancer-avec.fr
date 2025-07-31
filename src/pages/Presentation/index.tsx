@@ -36,7 +36,7 @@ const Presentation = () => {
             <div style={outerLayer}>
                 <div style={innerLayer}>
                     <p className={styles.textSurrounded}>
-                        Mon parcours : Mère de famille (cinq enfants) et grand-mère. <br/>
+                        Mon parcours : Mère de famille (cinq enfants) et grand-mère. <br/>
                         <br/>
                         J’ai vécu dans plusieurs régions de France et y ai exercé mon métier d’infirmière dans différent secteurs. <br/>
                         <br/>
@@ -52,7 +52,7 @@ const Presentation = () => {
                 </div>
             </div>
             <p>
-                Ma vision : Chaque vie est un trésor unique, parfois comme une pierre précieuse dont certaines facettes ont besoin d’être mises à jour ou parfois comme un jardin où de belles fleurs ont besoin d’être dégagées de ce qui les étouffe.<br/>
+                Ma vision : Chaque vie est un trésor unique, parfois comme une pierre précieuse dont certaines facettes ont besoin d’être mises à jour ou parfois comme un jardin où de belles fleurs ont besoin d’être dégagées de ce qui les étouffe.<br/>
                 Mon accompagnement de coach y contribuera. <br/>
             </p>
             <img src={bouquet} alt="bouquet" />
