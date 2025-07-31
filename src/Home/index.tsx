@@ -1,8 +1,13 @@
-const Home = () => {
+import React from "react";
+import styles from "./styles.module.css"
+import welcomeImage from '../assets/chemin-texte.png'
+
+const Home: React.FC = () => {
     return (
-        <>
-        Page d'accueil
-        </>
+        <div className={styles.content}>
+            <h1>Accueil</h1>
+            <img src={welcomeImage} alt="bienvenue" />
+        </div>
     )
 }
 
