@@ -4,7 +4,7 @@ import bridge from "../../assets/page/Blog/bridge-1837210_1280.jpg"
 
 const Blog = () => {
     return (
-        <div className={styles.content}>
+        <>
             <h1>Blog</h1>
             <p>Bienvenue ici où je partage des pensées inspirantes ou de réflexion et des expériences de vie. Page où l’on peut laisser son empreinte. Contactez-moi.</p>
             <div className={styles.imageBloc}>
@@ -17,7 +17,7 @@ const Blog = () => {
                 <p>« On ne voit bien qu’avec le cœur, l’essentiel est invisible pour les yeux. »</p>
                 <p>Antoine de Saint Exupéry</p>
             </div>
-        </div>
+        </>
         
     )
 }
