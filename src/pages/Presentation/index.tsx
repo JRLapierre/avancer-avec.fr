@@ -21,7 +21,7 @@ const Presentation = () => {
     }
 
     return (
-        <div className={styles.content}>
+        <>
             <h1>Présentation</h1>
             <p>
                 Claire-Lise Lapierre, Coach professionnel accréditée par ICF (International Coaching Federation).<br/>
@@ -78,7 +78,7 @@ const Presentation = () => {
                 </p>
             </div>
         </div>
-        </div>
+        </>
     )
 }
 

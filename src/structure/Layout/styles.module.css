@@ -1,3 +1,13 @@
 .page {
     flex: 1 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 2rem;
+    margin-right: 10%;
+    margin-left: 10%;
+}
+
+img {
+    max-width: 100%;
 }

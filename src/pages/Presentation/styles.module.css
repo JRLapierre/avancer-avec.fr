@@ -1,17 +1,3 @@
-.content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 2rem;
-    margin-right: 10%;
-    margin-left: 10%;
-}
-
-/*TODO common with all, redundant code*/
-img {
-    max-width: 100%;
-}
-
 .textSurrounded {
     margin-top: 15%;
     margin-bottom: 15%;
