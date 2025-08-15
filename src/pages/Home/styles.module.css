@@ -1,0 +1,60 @@
+.hook {
+    min-height: 80dvh;
+    min-width: 80%;
+    font-size: 2em;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.hook .bloc1 > * {
+    margin: 0;
+}
+
+.hook .bloc2 {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.hook .bloc3 > * {
+    text-align: end;
+}
+
+.baby {
+    max-width: 100%;
+    display: flex;
+}
+
+.baby img {
+    flex: 1;
+    width: auto;
+    min-width: 0;
+}
+
+.baby p {
+    font-size: 2em;
+    width: 200px;
+    flex-shrink: 0;
+    font-weight: bold;
+    margin-left: 1em;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+@media (max-width: 768px) {
+    .hook {
+        font-size: 1em;
+    }
+
+    .baby {
+        flex-direction: column;
+    }
+
+    .baby p {
+        font-size: 1em;
+        width: auto;
+        text-align: center;
+        margin-left: none;
+    }
+}
