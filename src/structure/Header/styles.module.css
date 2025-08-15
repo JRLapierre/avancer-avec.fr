@@ -17,14 +17,14 @@ header {
     font-size: 2em;
 }
 
-a {
+.menu a {
     margin-right: 1em;
     color: white;
     text-decoration: none;
 }
 
 /* Menu style */
-a:hover {
+.menu a:hover {
     text-decoration: underline;
 }
 
@@ -39,12 +39,8 @@ a:hover {
     }
 
     /* Makes the default menu non visible on narrow screen */
-    .menu_vertical {
-        display: none
-    }
-
-    .menu_horisontal {
-        display: flex;
+    .menu {
+        display: none;
         position: fixed;
         background-color: black;
         z-index: 1;

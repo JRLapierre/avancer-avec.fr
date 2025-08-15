@@ -1,19 +1,20 @@
 import { Link } from 'react-router-dom';
 import styles from './styles.module.css';
 import logo from '/logo.png';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 
 
 const Header = () => {
 
-    const [menuOpen, setMenuOpen] = useState<boolean>(false);
     const menuRef = useRef<HTMLDivElement | null>(null);
 
     /**
      * Permits the display of the menu on a narrow screen
      */
     const toggleMenu = () => {
-        setMenuOpen(!menuOpen);
+        if (menuRef.current && menuRef.current.style.display == 'none') {
+            menuRef.current.style.display = 'flex';
+        } 
     };
 
     /**
@@ -23,7 +24,7 @@ const Header = () => {
         function handleClickOutside(event: MouseEvent) {
             const target = event.target as Node;
             if (menuRef.current && !menuRef.current.contains(target)) {
-                setMenuOpen(false);
+                menuRef.current.style.display = 'none';
             }
         }
         document.addEventListener('mousedown', handleClickOutside);
@@ -45,16 +46,15 @@ const Header = () => {
                 <p>Claire-Lise Coach pour avancer</p>
             </div>
             {/* menu */}
-            <nav ref={menuRef}>
+            <nav>
                 <div onClick={toggleMenu} className={styles.menu_icon}>
                     Menu
                 </div>
-                <div className={menuOpen ? styles.menu_horisontal : styles.menu_vertical}>
+                <div ref={menuRef} className={styles.menu}>
                     <Link to="/">Page d'accueil</Link>
                     <Link to="/presentation">Présentation</Link>
                     <Link to="/blog">Blog</Link>
                 </div>
-
             </nav>
         </header>
     )
