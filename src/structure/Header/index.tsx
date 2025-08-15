@@ -7,6 +7,14 @@ import { useEffect, useRef } from 'react';
 const Header = () => {
 
     const menuRef = useRef<HTMLDivElement | null>(null);
+    const mediaQuery = window.matchMedia("(max-width: 768px)");
+
+
+    mediaQuery.addEventListener("change", (event) => {
+        if (menuRef.current) {
+            menuRef.current.style.display = event.matches ? 'none' : '';
+        }
+    });
 
     /**
      * Permits the display of the menu on a narrow screen
