@@ -1,5 +1,5 @@
 import React from "react";
-//import welcomeImage from '../../assets/page/Home/chemin-texte.png' //TODO delete useless image
+import coach_1965 from '../../assets/page/Home/coach_1965.jpg'
 import styles from './styles.module.css'
 
 const Home: React.FC = () => {
@@ -17,11 +17,9 @@ const Home: React.FC = () => {
                 <h3>Claire-Lise, coach certifiée à Hénin-Beaumont</h3>
             </div>
         </div>
-        <div>
-            {/* TODO photo and comment */}
-        </div>
-        <div>
-            {/* TODO Buttons towards "ce que je vous propose" and "mon parcours, ma vision" */}
+        <div className={styles.baby}>
+            <img src={coach_1965} alt="Bébé, déja coach" />
+            <p>Coach depuis toujours (photo prise en 1965)</p>
         </div>
         </>
     )
