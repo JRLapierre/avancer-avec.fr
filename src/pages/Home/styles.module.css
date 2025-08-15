@@ -1,0 +1,24 @@
+.hook {
+    min-width: 80%;
+    font-size: 2em;
+}
+
+.hook .bloc1 > * {
+    margin: 0;
+}
+
+.hook .bloc2 {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.hook .bloc3 > * {
+    text-align: end;
+}
+
+@media (max-width: 768px) {
+    .hook {
+        font-size: 1em;
+    }
+}
