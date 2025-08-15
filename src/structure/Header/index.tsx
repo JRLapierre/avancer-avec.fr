@@ -36,7 +36,9 @@ const Header = () => {
         <header>
             {/* Icon */}
             <div>
-                <img src={logo} alt="logo" height="70"/>
+                <Link to="/">
+                    <img src={logo} alt="logo" height="70"/>
+                </Link>
             </div>
             {/* Title */}
             <div className={styles.title}>
