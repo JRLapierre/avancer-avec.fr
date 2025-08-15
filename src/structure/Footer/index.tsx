@@ -20,8 +20,8 @@ const Footer = () => {
             {/* Column 3 */}
             <div>
                 <h3>Contact</h3>
-                <p>06.37.24.35.40</p>
-                <p>clairelise@avancer-avec.fr</p>
+                <p><a className={styles.contact} href='tel:0637243540'>06.37.24.35.40</a></p>
+                <p><a className={styles.contact} href='mailto:clairelise@avancer-avec.fr'>clairelise@avancer-avec.fr</a></p>
             </div>
         </footer>
     )

@@ -9,6 +9,15 @@
     bottom: 0;
 }
 
+.contact {
+    color: white;
+    text-decoration: none;
+}
+
+.contact a:hover {
+    text-decoration: underline;
+}
+
 @media (max-width: 768px) {
     .footer {
         flex-direction: column;
