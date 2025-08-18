@@ -6,13 +6,13 @@ import { useEffect, useRef } from 'react';
 
 const Header = () => {
 
-    const menuRef = useRef<HTMLDivElement>(null!);
-    const mediaQuery = window.matchMedia("(max-width: 768px)");
+    const menuRef = useRef<HTMLDivElement | null>(null);
 
     /**
      * Permits the display of the menu on a narrow screen
      */
     const toggleMenu = () => {
+        if (!menuRef.current) return;
         menuRef.current.style.display =  'flex';
     };
 
@@ -21,6 +21,8 @@ const Header = () => {
      */
     useEffect(() => {
         function handleClickOutside(event: MouseEvent) {
+            if (!menuRef.current) return;
+            const mediaQuery = window.matchMedia("(max-width: 768px)");
             const target = event.target as Node;
             if (!menuRef.current.contains(target) && mediaQuery.matches) {
                 menuRef.current.style.display = '';
