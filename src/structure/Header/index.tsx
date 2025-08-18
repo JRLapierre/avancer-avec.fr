@@ -7,22 +7,13 @@ import { useEffect, useRef } from 'react';
 const Header = () => {
 
     const menuRef = useRef<HTMLDivElement | null>(null);
-    const mediaQuery = window.matchMedia("(max-width: 768px)");
-
-
-    mediaQuery.addEventListener("change", (event) => {
-        if (menuRef.current) {
-            menuRef.current.style.display = event.matches ? 'none' : '';
-        }
-    });
 
     /**
      * Permits the display of the menu on a narrow screen
      */
     const toggleMenu = () => {
-        if (menuRef.current && menuRef.current.style.display == 'none') {
-            menuRef.current.style.display = 'flex';
-        } 
+        if (!menuRef.current) return;
+        menuRef.current.style.display =  'flex';
     };
 
     /**
@@ -30,9 +21,11 @@ const Header = () => {
      */
     useEffect(() => {
         function handleClickOutside(event: MouseEvent) {
+            if (!menuRef.current) return;
+            const mediaQuery = window.matchMedia("(max-width: 768px)");
             const target = event.target as Node;
-            if (menuRef.current && !menuRef.current.contains(target)) {
-                menuRef.current.style.display = 'none';
+            if (!menuRef.current.contains(target) && mediaQuery.matches) {
+                menuRef.current.style.display = '';
             }
         }
         document.addEventListener('mousedown', handleClickOutside);
