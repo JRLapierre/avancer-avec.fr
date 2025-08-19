@@ -1,5 +1,5 @@
 import React from "react";
-import coach_1965 from '../../assets/page/Home/coach_1965.jpg'
+import coach_1965 from '../../assets/pages/Home/coach_1965.jpg'
 import styles from './styles.module.css'
 
 const Home: React.FC = () => {

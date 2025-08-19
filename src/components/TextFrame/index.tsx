@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from "./styles.module.css"
-import floralBorder from "../../assets/page/Presentation/frame-leaves.png"
+import floralBorder from "../../assets/pages/Presentation/frame-leaves.png"
 
 interface Props {
     title: string;

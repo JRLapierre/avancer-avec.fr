@@ -1,6 +1,6 @@
 import styles from "./styles.module.css"
-import theLittlePrince from "../../assets/page/Blog/the-little-prince-5235474_1280.jpg"
-import bridge from "../../assets/page/Blog/bridge-1837210_1280.jpg"
+import theLittlePrince from "../../assets/pages/Blog/the-little-prince-5235474_1280.jpg"
+import bridge from "../../assets/pages/Blog/bridge-1837210_1280.jpg"
 
 const Blog = () => {
     return (
