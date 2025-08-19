@@ -10,6 +10,7 @@ header {
     /*keep the header on the screen*/
     position: sticky;
     top: 0;
+    z-index: 1;
 }
 
 /* Title style */
@@ -43,7 +44,6 @@ header {
         display: none;
         position: fixed;
         background-color: black;
-        z-index: 1;
         flex-direction: column;
         right: 0;
     }

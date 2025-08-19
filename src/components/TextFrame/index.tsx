@@ -1,7 +1,6 @@
 import React from 'react';
 import styles from "./styles.module.css"
-import floralBorderTop from "../../assets/page/Presentation/Image_florale_top_1.png"
-import floralBorderBottom from "../../assets/page/Presentation/Image_florale_bottom_1.png"
+import floralBorder from "../../assets/page/Presentation/frame-leaves.png"
 
 interface Props {
     title: string;
@@ -10,20 +9,18 @@ interface Props {
 
 const TextFrame: React.FC<Props> = ({title, content}) => {
 
-    const outerLayer = {
-        backgroundImage: `url(${floralBorderTop})`,
+    const backgroundImage = {
+        backgroundImage: `url(${floralBorder})`,
     };
-
-    const innerLayer = {
-        backgroundImage: `url(${floralBorderBottom})`,
-    }
 
     return (
         <div className={styles.textFrame}>
-            <h2>{title}</h2>
-            <div className={styles.outerLayer} style={outerLayer}>
-                <div className={styles.innerLayer} style={innerLayer}>
-                    <p className={styles.textSurrounded}>{content}</p>
+            <div className={styles.outerLayer} style={backgroundImage}>
+                <div className={styles.innerLayer} style={backgroundImage}>
+                    <div className={styles.content}>
+                        <h2>{title}</h2>
+                        <p className={styles.textSurrounded}>{content}</p>
+                    </div>
                 </div>
             </div>
         </div>
