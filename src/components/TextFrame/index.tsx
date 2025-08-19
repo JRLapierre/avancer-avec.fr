@@ -11,29 +11,22 @@ interface Props {
 const TextFrame: React.FC<Props> = ({title, content}) => {
 
     const outerLayer = {
-        backgroundColor: 'white',
         backgroundImage: `url(${floralBorderTop})`,
-        backgroundRepeat: `no-repeat`,
-        backgroundSize: `100%`
     };
 
     const innerLayer = {
-        display: 'flex',
         backgroundImage: `url(${floralBorderBottom})`,
-        backgroundRepeat: 'no-repeat',
-        backgroundSize: '100%',
-        backgroundPosition: 'bottom',
     }
 
     return (
-        <>
-        <h2>{title}</h2>
-        <div style={outerLayer}>
-            <div style={innerLayer}>
-                <p className={styles.textSurrounded}>{content}</p>
+        <div className={styles.textFrame}>
+            <h2>{title}</h2>
+            <div className={styles.outerLayer} style={outerLayer}>
+                <div className={styles.innerLayer} style={innerLayer}>
+                    <p className={styles.textSurrounded}>{content}</p>
+                </div>
             </div>
         </div>
-        </>
     );
 };
 
