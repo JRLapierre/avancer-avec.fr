@@ -1,10 +1,39 @@
+import { Element, Link } from "react-scroll";
 import styles from "./styles.module.css"
 import TextFrame from "../../components/TextFrame"
+import React from "react";
+
 
 const Presentation = () => {
+//TODO : make the arrows at the top and bottom
+//TODO : make the arrow dissapear if we have no previous or next section
+
+    const useHeaderHeight = () => {
+        const [headerHeight, setHeaderHeight] = React.useState(0);
+
+        React.useEffect(() => {
+            const header = document.querySelector('header');
+            if (!header) return;
+
+            const updateHeight = () => setHeaderHeight(header.offsetHeight);
+            //in case the screen changes size
+            updateHeight();
+            window.addEventListener('resize', updateHeight);
+            return () => window.removeEventListener('resize', updateHeight);
+        }, []);
+
+        return headerHeight;
+    };
+
+    const headerHeight = useHeaderHeight();
 
     return (
         <>
+            <li><Link activeClass="active" to="test1" spy={true} smooth={true} duration={500} offset={-headerHeight}>Test 1</Link></li>
+            <li><Link activeClass="active" to="test2" spy={true} smooth={true} duration={500} offset={-headerHeight}>Test 2</Link></li>
+            
+            <Element name="test1">
+                test 1
             <TextFrame
                 title="Présentation"
                 content="
@@ -18,6 +47,10 @@ const Presentation = () => {
                     Ça vous intéresse ?
                 "
             />
+            </Element>
+            <Element name="test2">
+                test 2
+            
             <TextFrame
                 title="Mon parcours"
                 content="
@@ -34,7 +67,7 @@ const Presentation = () => {
                     Après toutes ces années, j’ai décidé de me recentrer sur mes points forts notamment l’écoute active. Parfois
                     frustrée de mes limites, j’ai trouvé dans la formation de coach des outils efficaces.
                 "
-            />
+            /></Element>
             <TextFrame
                 title="Ma vision"
                 content="
