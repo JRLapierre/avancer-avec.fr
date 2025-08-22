@@ -1,11 +1,11 @@
 import { Element, scroller } from "react-scroll";
 import styles from "./styles.module.css"
 import TextFrame from "../../components/TextFrame"
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 
 
 const Presentation = () => {
-    
+
     const useHeaderHeight = () => {
         const [headerHeight, setHeaderHeight] = React.useState(0);
 
@@ -13,11 +13,11 @@ const Presentation = () => {
             const header = document.querySelector('header');
             if (!header) return;
 
-            const updateHeight = () => setHeaderHeight(header.offsetHeight);
+            const updateHeight = () => {setHeaderHeight(header.offsetHeight)};
             //in case the screen changes size
             updateHeight();
             window.addEventListener('resize', updateHeight);
-            return () => window.removeEventListener('resize', updateHeight);
+            return () => {window.removeEventListener('resize', updateHeight)};
         }, []);
 
         return headerHeight;
@@ -31,7 +31,7 @@ const Presentation = () => {
         content: string;
     }
 
-    const sections: TextBloc[] = [
+    const sections: TextBloc[] = useMemo(() => [
         {
             id: 1,
             title: "Présentation",
@@ -72,15 +72,15 @@ const Presentation = () => {
                 Mon accompagnement de coach y contribuera.
             `
         }
-    ];
+    ], []);
 
     const [currentSectionIndex, setCurrentSectionIndex] = useState(0);
     const sectionRefs = useRef<(HTMLElement | null)[]>([]);
 
     const scrollToSection = (index: number) => {
-        scroller.scrollTo(`section${sections[index].id}`, {
+        scroller.scrollTo(`section${sections[index].id.toString()}`, {
             smooth: true,
-            offset: -headerHeight,
+            offset: -(headerHeight + 40),
         });
     };
 
@@ -97,28 +97,27 @@ const Presentation = () => {
     };
 
     useEffect(() => {
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        const index = sectionRefs.current.findIndex(
-                            (el) => el === entry.target
-                        );
-                        if (index !== -1) setCurrentSectionIndex(index);
-                    }
-                });
-            },
-            {
-                threshold: 0.5, // 50% of the section must be visible
-            }
+        const handleEntry = (entry: IntersectionObserverEntry) => {
+            if (!entry.isIntersecting) return;
+            const index = sectionRefs.current.findIndex(
+                (el) => el === entry.target
             );
+            if (index !== -1) setCurrentSectionIndex(index);
+        }
 
-        sectionRefs.current.forEach((el) => {
+        const observer = new IntersectionObserver(
+            (entries) => {entries.forEach((entry) => {handleEntry(entry)});},
+            {threshold: 0.5, }// 50% of the section must be visible
+        );
+
+        const currentSelectionRefs = sectionRefs.current;
+
+        currentSelectionRefs.forEach((el) => {
         if (el) observer.observe(el);
         });
 
         return () => {
-        sectionRefs.current.forEach((el) => {
+        currentSelectionRefs.forEach((el) => {
             if (el) observer.unobserve(el);
         });
         };
@@ -128,7 +127,7 @@ const Presentation = () => {
         <>
             {sections.map((section, index) => (
                 <div  key={section.id} ref={(el) => {sectionRefs.current[index] = el}}>
-                    <Element name={"section" + section.id}>
+                    <Element name={`section${section.id.toString()}`}>
                         <TextFrame
                             title={section.title}
                             content={section.content}
@@ -140,14 +139,14 @@ const Presentation = () => {
             {/* Navigation Arrows */}
             <div className={styles.navigationDiv}>
                 {currentSectionIndex > 0 && (
-                <button className={styles.navigationButton} onClick={goToPrev}>
+                <button type="button" className={styles.navigationButton} onClick={goToPrev}>
                     ↑ {sections[currentSectionIndex - 1].title}
                 </button>
                 )}
             </div>
             <div className={`${styles.navigationDiv} ${styles.bottomNav}`}>
                 {currentSectionIndex < sections.length - 1 && (
-                <button className={styles.navigationButton} onClick={goToNext}>
+                <button type="button" className={styles.navigationButton} onClick={goToNext}>
                     {sections[currentSectionIndex + 1].title} ↓
                 </button>
                 )}
