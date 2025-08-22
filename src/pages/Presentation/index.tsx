@@ -1,12 +1,13 @@
-import { Element, Link } from "react-scroll";
+import { Element, Link, scroller } from "react-scroll";
 import styles from "./styles.module.css"
 import TextFrame from "../../components/TextFrame"
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 
 const Presentation = () => {
 //TODO : make the arrows at the top and bottom
 //TODO : make the arrow dissapear if we have no previous or next section
+//TODO : have the arrows auto-adapt
 
     const useHeaderHeight = () => {
         const [headerHeight, setHeaderHeight] = React.useState(0);
@@ -76,20 +77,84 @@ const Presentation = () => {
         }
     ];
 
+    const [currentSectionIndex, setCurrentSectionIndex] = useState(0);
+    const sectionRefs = useRef<(HTMLElement | null)[]>([]);
+
+    const scrollToSection = (index: number) => {
+        scroller.scrollTo(`section${sections[index].id}`, {
+            smooth: true,
+            offset: -headerHeight,
+        });
+    };
+
+    const goToNext = () => {
+        if (currentSectionIndex < sections.length - 1) {
+        scrollToSection(currentSectionIndex + 1);
+        }
+    };
+
+    const goToPrev = () => {
+        if (currentSectionIndex > 0) {
+        scrollToSection(currentSectionIndex - 1);
+        }
+    };
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+        (entries) => {
+            entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                const index = sectionRefs.current.findIndex(
+                (el) => el === entry.target
+                );
+                if (index !== -1) setCurrentSectionIndex(index);
+            }
+            });
+        },
+        {
+            threshold: 0.5, // 50% of the section must be visible
+        }
+        );
+
+        sectionRefs.current.forEach((el) => {
+        if (el) observer.observe(el);
+        });
+
+        return () => {
+        sectionRefs.current.forEach((el) => {
+            if (el) observer.unobserve(el);
+        });
+        };
+    }, [sections]);
+
     return (
         <>
-            <li><Link activeClass="active" to="section1" spy={true} smooth={true} duration={500} offset={-headerHeight}>Test 1</Link></li>
-            <li><Link activeClass="active" to="section2" spy={true} smooth={true} duration={500} offset={-headerHeight}>Test 2</Link></li>
-            <li><Link activeClass="active" to="section3" spy={true} smooth={true} duration={500} offset={-headerHeight}>Test 3</Link></li>
-            
-            {sections.map((section) => (
-                <Element name={"section" + section.id} key={section.id}>
-                    <TextFrame
-                        title={section.title}
-                        content={section.content}
-                    />
-                </Element>
+            {sections.map((section, index) => (
+                <div  key={section.id} ref={(el) => {sectionRefs.current[index] = el}}>
+                    <Element name={"section" + section.id}>
+                        <TextFrame
+                            title={section.title}
+                            content={section.content}
+                        />
+                    </Element>
+                </div>
             ))}
+
+            {/* Navigation Arrows */}
+            <div style={{ position: 'fixed', bottom: '20px', left: '20px' }}>
+                {currentSectionIndex > 0 && (
+                <button onClick={goToPrev}>
+                    ← {sections[currentSectionIndex - 1].title}
+                </button>
+                )}
+            </div>
+            <div style={{ position: 'fixed', bottom: '20px', right: '20px' }}>
+                {currentSectionIndex < sections.length - 1 && (
+                <button onClick={goToNext}>
+                    {sections[currentSectionIndex + 1].title} →
+                </button>
+                )}
+            </div>
         </>
     )
 }
