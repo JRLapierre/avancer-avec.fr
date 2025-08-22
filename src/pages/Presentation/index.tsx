@@ -1,14 +1,11 @@
-import { Element, Link, scroller } from "react-scroll";
+import { Element, scroller } from "react-scroll";
 import styles from "./styles.module.css"
 import TextFrame from "../../components/TextFrame"
 import React, { useEffect, useRef, useState } from "react";
 
 
 const Presentation = () => {
-//TODO : make the arrows at the top and bottom
-//TODO : make the arrow dissapear if we have no previous or next section
-//TODO : have the arrows auto-adapt
-
+    
     const useHeaderHeight = () => {
         const [headerHeight, setHeaderHeight] = React.useState(0);
 
@@ -101,20 +98,20 @@ const Presentation = () => {
 
     useEffect(() => {
         const observer = new IntersectionObserver(
-        (entries) => {
-            entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-                const index = sectionRefs.current.findIndex(
-                (el) => el === entry.target
-                );
-                if (index !== -1) setCurrentSectionIndex(index);
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        const index = sectionRefs.current.findIndex(
+                            (el) => el === entry.target
+                        );
+                        if (index !== -1) setCurrentSectionIndex(index);
+                    }
+                });
+            },
+            {
+                threshold: 0.5, // 50% of the section must be visible
             }
-            });
-        },
-        {
-            threshold: 0.5, // 50% of the section must be visible
-        }
-        );
+            );
 
         sectionRefs.current.forEach((el) => {
         if (el) observer.observe(el);
@@ -141,17 +138,17 @@ const Presentation = () => {
             ))}
 
             {/* Navigation Arrows */}
-            <div style={{ position: 'fixed', bottom: '20px', left: '20px' }}>
+            <div className={styles.navigationDiv}>
                 {currentSectionIndex > 0 && (
-                <button onClick={goToPrev}>
-                    ← {sections[currentSectionIndex - 1].title}
+                <button className={styles.navigationButton} onClick={goToPrev}>
+                    ↑ {sections[currentSectionIndex - 1].title}
                 </button>
                 )}
             </div>
-            <div style={{ position: 'fixed', bottom: '20px', right: '20px' }}>
+            <div className={`${styles.navigationDiv} ${styles.bottomNav}`}>
                 {currentSectionIndex < sections.length - 1 && (
-                <button onClick={goToNext}>
-                    {sections[currentSectionIndex + 1].title} →
+                <button className={styles.navigationButton} onClick={goToNext}>
+                    {sections[currentSectionIndex + 1].title} ↓
                 </button>
                 )}
             </div>
