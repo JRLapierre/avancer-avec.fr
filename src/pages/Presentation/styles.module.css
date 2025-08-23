@@ -1,3 +1,8 @@
+.textBlocDiv {
+    margin-top: var(--nav-bars-height);
+    width: 100%;
+}
+
 .navigationDiv {
     position: fixed;
     width: 100%;
@@ -8,7 +13,7 @@
 }
 
 .navigationButton {
-    height: 40px;
+    height: var(--nav-bars-height);
     border: none;
     width: 100%;
     background-color: #0ed145;

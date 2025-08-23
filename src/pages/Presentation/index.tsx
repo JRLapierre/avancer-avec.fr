@@ -1,30 +1,14 @@
 import { Element, scroller } from "react-scroll";
 import styles from "./styles.module.css"
 import TextFrame from "../../components/TextFrame"
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { useHeaderHeight } from "../../hooks/useHeaderHeight";
+import { NAV_BARS_HEIGHT } from "../../constants";
 
 
 const Presentation = () => {
 
-    const useHeaderHeight = () => {
-        const [headerHeight, setHeaderHeight] = React.useState(0);
-
-        React.useEffect(() => {
-            const header = document.querySelector('header');
-            if (!header) return;
-
-            const updateHeight = () => {setHeaderHeight(header.offsetHeight)};
-            //in case the screen changes size
-            updateHeight();
-            window.addEventListener('resize', updateHeight);
-            return () => {window.removeEventListener('resize', updateHeight)};
-        }, []);
-
-        return headerHeight;
-    };
-
     const headerHeight = useHeaderHeight();
-
     interface TextBloc {
         id: number;
         title: string;
@@ -80,7 +64,7 @@ const Presentation = () => {
     const scrollToSection = (index: number) => {
         scroller.scrollTo(`section${sections[index].id.toString()}`, {
             smooth: true,
-            offset: -(headerHeight + 40),
+            offset: -(headerHeight + NAV_BARS_HEIGHT),
         });
     };
 
@@ -126,7 +110,7 @@ const Presentation = () => {
     return (
         <>
             {sections.map((section, index) => (
-                <div  key={section.id} ref={(el) => {sectionRefs.current[index] = el}}>
+                <div className={styles.textBlocDiv} key={section.id} ref={(el) => {sectionRefs.current[index] = el}}>
                     <Element name={`section${section.id.toString()}`}>
                         <TextFrame
                             title={section.title}

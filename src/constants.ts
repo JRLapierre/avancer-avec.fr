@@ -1,0 +1,1 @@
+export const NAV_BARS_HEIGHT = 40; //px
