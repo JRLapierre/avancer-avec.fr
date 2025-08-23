@@ -1,18 +1,21 @@
-.textSurrounded {
-    margin-top: 15%;
-    margin-bottom: 15%;
-    margin-left: 18%; 
-    margin-right: 18%; 
+.textBlocDiv {
+    margin-top: var(--nav-bars-height);
+    width: 100%;
 }
 
-.deal {
-    margin-top: 2em;
-    display: flex;
-    justify-content: space-evenly;
+.navigationDiv {
+    position: fixed;
+    width: 100%;
 }
 
-@media (max-width: 768px) {
-    .deal {
-        flex-direction: column;
-    }
+.bottomNav {
+    bottom: 0;
+}
+
+.navigationButton {
+    height: var(--nav-bars-height);
+    border: none;
+    width: 100%;
+    background-color: #0ed145;
+    color: white;
 }

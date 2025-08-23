@@ -7,6 +7,9 @@ import NoPage from './pages/NoPage/index.tsx';
 import Home from './pages/Home/index.tsx';
 import Presentation from './pages/Presentation/index.tsx';
 import Blog from './pages/Blog/index.tsx';
+import { NAV_BARS_HEIGHT } from './constants.ts';
+
+document.documentElement.style.setProperty('--nav-bars-height', `${NAV_BARS_HEIGHT.toString()}px`)
 
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 createRoot(document.getElementById('root')!).render(
