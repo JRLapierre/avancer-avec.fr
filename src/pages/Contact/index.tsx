@@ -1,6 +1,94 @@
+import type React from 'react';
 import styles from './styles.module.css'
+import { useState } from 'react';
 
 const Contact = () => {
+
+    type ApiResponse =
+    | { curl_error: string }
+    | { systeme_io_answer: SystemeIoEmailAnswer | SystemeIoError | string };
+
+    interface SystemeIoEmailAnswer {
+        id: number;
+        email: string;
+        registeredAt: string;
+        locale: string;
+        sourceURL: string;
+        unsubscribed: boolean;
+        bounced: boolean;
+        needsConfirmation: boolean;
+        fields: string[]; //unsure
+        tags: string[]; //unsure
+    }
+
+    interface SystemeIoError {
+        type: string;
+        title: string;
+        detail: string;
+        violations: SystemeIoViolation[];
+    }
+
+    interface SystemeIoViolation {
+        propertyPath: string;
+        message: string;
+        code: string;
+    }
+
+    const [formData, setFormData] = useState({
+        email: '',
+        firstName: '',
+        lastName: '',
+        object: '',
+        mailContent: ''
+    });
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({ ...prev, [name]: value }));
+    };
+
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        try {
+            const response = await fetch('/api/index.php', {
+                method: 'POST',
+                headers: {
+                    'Contendt-type': 'application/json',
+                },
+                body: JSON.stringify(formData),//for standard JSON
+            });
+            
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            const result = (await response.json() as ApiResponse);
+            if ('curl_error' in result) {
+                console.log("curl_error : " + result.curl_error); //TODO error pop-up
+            }
+            else {
+                let answer:SystemeIoEmailAnswer | SystemeIoError;
+                if (typeof result.systeme_io_answer === "string") answer = JSON.parse(result.systeme_io_answer) as SystemeIoEmailAnswer | SystemeIoError;
+                else answer = result.systeme_io_answer;
+
+                if ('detail' in answer && answer.detail !== "email: Cette valeur est déjà utilisée.") {
+                    console.log("error : ", answer.detail)
+                    //TODO error pop-up
+                }
+                else {
+                    // TODO Handle success (e.g., show a success message)
+                    console.log('test 2')
+                    console.log("full success")
+                }
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            // TODO Handle error (e.g., show an error message)
+        }
+    };
+
     return (
         <>
         <div className={styles.firstRow}>
@@ -27,11 +115,48 @@ const Contact = () => {
         </div>
         <div className={styles.secondRow}>
             <div className={styles.form}>
-                <form method="POST" action="https://avancer-avec.fr/newsletter.php">
-                    <input type="email" name="email" />
-                    <input type="text" name="first name" />
-                    <input type="text" name="last name" />
-                    <input type="submit" value="S'inscrire" />
+                <form onSubmit={(e) => void handleSubmit(e)}>
+                    <input 
+                        type="email" 
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        placeholder='email' 
+                        required 
+                    />
+                    <input 
+                        type="text"
+                        name="firstName" 
+                        value={formData.firstName}
+                        onChange={handleChange}
+                        placeholder='prénom' 
+                        required 
+                    />
+                    <input 
+                        type="text" 
+                        name="lastName" 
+                        value={formData.lastName}
+                        onChange={handleChange}
+                        placeholder='nom'
+                    />
+                    <input 
+                        type="text" 
+                        name="object" 
+                        value={formData.object}
+                        onChange={handleChange}
+                        placeholder='objet' 
+                        required 
+                    />
+                    <textarea 
+                        name="mailContent" 
+                        value={formData.mailContent}
+                        onChange={handleChange}
+                        placeholder='contenu du mail' 
+                        required 
+                    >
+
+                    </textarea>
+                    <input type="submit" value="Prendre rendez-vous" />
                 </form>
             </div>
             <div className={styles.deal}>
