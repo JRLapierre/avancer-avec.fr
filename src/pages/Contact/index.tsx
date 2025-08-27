@@ -55,7 +55,7 @@ const Contact = () => {
             const response = await fetch('/api/index.php', {
                 method: 'POST',
                 headers: {
-                    'Contendt-type': 'application/json',
+                    'Content-type': 'application/json',
                 },
                 body: JSON.stringify(formData),//for standard JSON
             });
