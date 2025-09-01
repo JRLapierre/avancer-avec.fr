@@ -6,9 +6,10 @@ const Contact = () => {
 
     type ApiResponse =
     | { curl_error: string }
-    | { systeme_io_answer: SystemeIoEmailAnswer | SystemeIoError | string };
+    | { systeme_io_error: SystemeIoError }
+    | { success: SystemeIoContactInfo };
 
-    interface SystemeIoEmailAnswer {
+    interface SystemeIoContactInfo {
         id: number;
         email: string;
         registeredAt: string;
@@ -17,9 +18,15 @@ const Contact = () => {
         unsubscribed: boolean;
         bounced: boolean;
         needsConfirmation: boolean;
-        fields: string[]; //unsure
+        fields: SystemeIoField[];
         tags: string[]; //unsure
     }
+
+    interface SystemeIoField {
+    fieldName: string;
+    slug: string;
+    value: string;
+}
 
     interface SystemeIoError {
         type: string;
@@ -37,7 +44,7 @@ const Contact = () => {
     const [formData, setFormData] = useState({
         email: '',
         firstName: '',
-        lastName: '',
+        surname: '',
         object: '',
         mailContent: ''
     });
@@ -65,23 +72,20 @@ const Contact = () => {
             }
 
             const result = (await response.json() as ApiResponse);
+            //TODO display messages
             if ('curl_error' in result) {
-                console.log("curl_error : " + result.curl_error); //TODO error pop-up
+                console.log("curl_error : " + result.curl_error);
+            }
+            else if ('systeme_io_error' in result) {
+                console.log("systeme_io_error : ")
+                console.log(result.systeme_io_error);
+            } 
+            else if ('success' in result) {
+                console.log("success : ");
+                console.log(result.success);
             }
             else {
-                let answer:SystemeIoEmailAnswer | SystemeIoError;
-                if (typeof result.systeme_io_answer === "string") answer = JSON.parse(result.systeme_io_answer) as SystemeIoEmailAnswer | SystemeIoError;
-                else answer = result.systeme_io_answer;
-
-                if ('detail' in answer && answer.detail !== "email: Cette valeur est déjà utilisée.") {
-                    console.log("error : ", answer.detail)
-                    //TODO error pop-up
-                }
-                else {
-                    // TODO Handle success (e.g., show a success message)
-                    console.log('test 2')
-                    console.log("full success")
-                }
+                console.log("something wrong in the answer");
             }
         } catch (error) {
             console.error('Error:', error);
@@ -134,8 +138,8 @@ const Contact = () => {
                     />
                     <input 
                         type="text" 
-                        name="lastName" 
-                        value={formData.lastName}
+                        name="surname" 
+                        value={formData.surname}
                         onChange={handleChange}
                         placeholder='nom'
                     />
