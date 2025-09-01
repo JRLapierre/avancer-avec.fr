@@ -17,11 +17,29 @@ jobs:
         with:
           node-version: '22.17.1'
 
-      - name: Install dependencies
+      - name: Install dependencies (npm)
         run: npm install
 
-      - name: Build
+      - name: Build (React)
         run: npm run build
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: mbstring, xml, curl
+          tools: composer
+
+      - name: Cache Composer dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.composer/cache
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+
+      - name: Install PHP dependencies (Composer)
+        run: cd api && composer install --no-dev --optimize-autoloader
 
       - name: Copy PHP API folder into dist
         run: cp -r api ./dist/
