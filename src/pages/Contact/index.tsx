@@ -63,7 +63,7 @@ const Contact = () => {
             const response = await fetch('/api/index.php', {
                 method: 'POST',
                 headers: {
-                    'Content-type': 'application/json',
+                    'Content-type': 'application/json;charset=UTF-8',
                 },
                 body: JSON.stringify(formData),//for standard JSON
             });

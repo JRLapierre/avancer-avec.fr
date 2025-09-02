@@ -1,6 +1,5 @@
 <?php
-//a captcha is most likely not needed
-//die(); //to block the script
+header('Content-Type: application/json; charset=utf-8');
 
 //get the data from the form
 $json = file_get_contents('php://input');
@@ -12,6 +11,13 @@ if (json_last_error() !== JSON_ERROR_NONE) {
     echo json_encode(['json_error' => 'Invalid JSON']);
     exit;
 }
+
+//TODO reorganise file
+/*
+- put the imports in place
+- put the contact management before the email management
+- If success of contact management, proceed with email management
+*/
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
@@ -33,6 +39,7 @@ try {
     $mail->Password   = $_ENV['SMTP_PASSWORD'];
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
     $mail->Port       = 465;
+    $mail->CharSet = 'UTF-8';
 
     // Recipients
     $mail->setFrom('clairelise@avancer-avec.fr', $data['firstName']);
@@ -41,7 +48,7 @@ try {
     // Content
     $mail->isHTML(true);
     $mail->Subject = $data['object'];
-    $mail->Body    = $data['mailContent'];
+    $mail->Body    = nl2br(htmlspecialchars($data['mailContent']));
 
     $mail->send();
     echo 'Email sent successfully';
