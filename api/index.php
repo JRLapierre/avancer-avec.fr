@@ -1,9 +1,16 @@
 <?php
+declare(strict_types=1);
 header('Content-Type: application/json; charset=utf-8');
 
+require_once 'vendor/autoload.php';
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+
 //get the data from the form
-$json = file_get_contents('php://input');
-$data = json_decode($json, true);
+$data = json_decode(file_get_contents('php://input'), true);
 
 // Check if decoding was successful (should not happend unless the front is played with)
 if (json_last_error() !== JSON_ERROR_NONE) {
@@ -12,35 +19,25 @@ if (json_last_error() !== JSON_ERROR_NONE) {
     exit;
 }
 
-//TODO reorganise file
-/*
-- put the imports in place
-- put the contact management before the email management
-- If success of contact management, proceed with email management
-*/
+//save the informations in the contacts
+$contactResult = manageContacts($data['email'], $data['firstName'], $data['surname']);
 
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
+if (!array_key_exists('success', $contactResult)) {
+    echo json_encode($contactResult);
+    exit;
+}
 
-require_once 'vendor/autoload.php';
+//send an email to clairelise@avancer-avec.fr
+echo json_encode(sendMailToHost($data));
 
-$mail = new PHPMailer(true);
+//functions -----------------------------------------------------------------------------
 
-// Load environment variables from .env file
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
-$dotenv->load();
-
-try {
-    // Server settings
-    $mail->isSMTP();
-    $mail->Host       = 'ssl0.ovh.net';
-    $mail->SMTPAuth   = true;
-    $mail->Username   = 'clairelise@avancer-avec.fr';
-    $mail->Password   = $_ENV['SMTP_PASSWORD'];
-    $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
-    $mail->Port       = 465;
-    $mail->CharSet = 'UTF-8';
-
+/**
+ * This function sends the result of the form to clairelise@avancer-avec.fr
+ * @param array $data the data from the form
+ * @return array{mail_error: string}|array{success: string}
+ */
+function sendMailToHost($data): array {
     //custom vars
     $fullName = "{$data['firstName']} {$data['surname']}";
     $customBody = "
@@ -51,28 +48,40 @@ try {
         <p>" . nl2br(htmlspecialchars($data['mailContent'])) . "</p>
     ";
 
-    // Recipients
-    $mail->setFrom('clairelise@avancer-avec.fr', $fullName);
-    $mail->addAddress('clairelise@avancer-avec.fr');
+    $mail = new PHPMailer(true);
+    try {
+        // Server settings
+        $mail->isSMTP();
+        $mail->Host       = 'ssl0.ovh.net';
+        $mail->SMTPAuth   = true;
+        $mail->Username   = 'clairelise@avancer-avec.fr';
+        $mail->Password   = $_ENV['SMTP_PASSWORD'];
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+        $mail->Port       = 465;
+        $mail->CharSet = 'UTF-8';
 
-    // Content
-    $mail->isHTML(true);
-    $mail->Subject = $data['object'];
-    $mail->Body    = $customBody;
+        // Recipients
+        $mail->setFrom('clairelise@avancer-avec.fr', $fullName);
+        $mail->addAddress('clairelise@avancer-avec.fr');
 
-    $mail->send();
-    echo 'Email sent successfully';
-} catch (Exception $e) {
-    echo "Error: {$mail->ErrorInfo}";
+        // Content
+        $mail->isHTML(true);
+        $mail->Subject = $data['object'];
+        $mail->Body    = $customBody;
+
+        $mail->send();
+        return ['success' => 'mail sent successfully'];
+    } catch (Exception $e) {
+        return ["mail_error" => $mail->ErrorInfo];
+    }
 }
-
-//echo json_encode(manageContacts($data['email'], $data['firstName'], $data['surname']));
-
-
-//functions -----------------------------------------------------------------------------
 
 /**
  * This function creates a contact if it does not exists, and updates it if it does exist.
+ * @param string $email
+ * @param string $first_name
+ * @param string $surname
+ * @return array{curl_error: string}|array{success: mixed}|array{systeme_io_error: mixed}
  */
 function manageContacts(string $email, string $first_name, string $surname = ''): array {
     //initialisation
@@ -135,13 +144,17 @@ function manageContacts(string $email, string $first_name, string $surname = '')
             CURLOPT_CUSTOMREQUEST => "PATCH",
             CURLOPT_POSTFIELDS => json_encode($data),
             CURLOPT_HTTPHEADER => $headers
-
         ];
         
         return sendSystemIoRequest($patchOptions);
     }
 }
 
+/**
+ * Sends a request to system.io, and manages the results
+ * @param array $curlOptions the options array for a curl request
+ * @return array{curl_error: string}|array{success: mixed}|array{systeme_io_error: mixed}
+ */
 function sendSystemIoRequest(array $curlOptions): array {
     $curl = curl_init();
     curl_setopt_array($curl, $curlOptions);
