@@ -5,9 +5,10 @@ import { useState } from 'react';
 const Contact = () => {
 
     type ApiResponse =
+    | { json_error: string }
     | { curl_error: string }
     | { systeme_io_error: SystemeIoError }
-    | { success: SystemeIoContactInfo };
+    | { success: SystemeIoContactInfo }
 
     interface SystemeIoContactInfo {
         id: number;
@@ -73,6 +74,9 @@ const Contact = () => {
 
             const result = (await response.json() as ApiResponse);
             //TODO display messages
+            if ('json_error' in result) {
+                console.log("json_error : " + result.json_error);
+            }
             if ('curl_error' in result) {
                 console.log("curl_error : " + result.curl_error);
             }
