@@ -14,6 +14,7 @@ dist-ssr
 
 #php
 api/vendor/
+api/.env
 
 # Editor directories and files
 .vscode/*

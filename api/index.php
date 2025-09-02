@@ -9,11 +9,50 @@ $data = json_decode($json, true);
 // Check if decoding was successful (should not happend unless the front is played with)
 if (json_last_error() !== JSON_ERROR_NONE) {
     http_response_code(400);
-    echo json_encode(['error' => 'Invalid JSON']);
+    echo json_encode(['json_error' => 'Invalid JSON']);
     exit;
 }
 
-echo json_encode(manageContacts($data['email'], $data['firstName'], $data['surname']));
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require_once 'vendor/autoload.php';
+
+$mail = new PHPMailer(true);
+
+// Load environment variables from .env file
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+
+try {
+    // Server settings
+    $mail->isSMTP();
+    $mail->Host       = 'ssl0.ovh.net';
+    $mail->SMTPAuth   = true;
+    $mail->Username   = 'clairelise@avancer-avec.fr';
+    $mail->Password   = $_ENV['SMTP_PASSWORD'];
+    $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+    $mail->Port       = 465;
+
+    // Recipients
+    $mail->setFrom('clairelise@avancer-avec.fr', $data['firstName']);
+    $mail->addAddress('clairelise@avancer-avec.fr');
+
+    // Content
+    $mail->isHTML(true);
+    $mail->Subject = $data['object'];
+    $mail->Body    = $data['mailContent'];
+
+    $mail->send();
+    echo 'Email sent successfully';
+} catch (Exception $e) {
+    echo "Error: {$mail->ErrorInfo}";
+}
+
+//echo json_encode(manageContacts($data['email'], $data['firstName'], $data['surname']));
+
+
+//functions -----------------------------------------------------------------------------
 
 /**
  * This function creates a contact if it does not exists, and updates it if it does exist.
