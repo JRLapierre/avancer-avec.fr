@@ -7,40 +7,9 @@ const Contact = () => {
     type ApiResponse =
     | { json_error: string }
     | { curl_error: string }
-    | { systeme_io_error: SystemeIoError }
-    | { success: SystemeIoContactInfo }
-
-    interface SystemeIoContactInfo {
-        id: number;
-        email: string;
-        registeredAt: string;
-        locale: string;
-        sourceURL: string;
-        unsubscribed: boolean;
-        bounced: boolean;
-        needsConfirmation: boolean;
-        fields: SystemeIoField[];
-        tags: string[]; //unsure
-    }
-
-    interface SystemeIoField {
-    fieldName: string;
-    slug: string;
-    value: string;
-}
-
-    interface SystemeIoError {
-        type: string;
-        title: string;
-        detail: string;
-        violations: SystemeIoViolation[];
-    }
-
-    interface SystemeIoViolation {
-        propertyPath: string;
-        message: string;
-        code: string;
-    }
+    | { mail_error: string }
+    | { systeme_io_error: string }
+    | { success: string }
 
     const [formData, setFormData] = useState({
         email: '',
@@ -81,12 +50,13 @@ const Contact = () => {
                 console.log("curl_error : " + result.curl_error);
             }
             else if ('systeme_io_error' in result) {
-                console.log("systeme_io_error : ")
-                console.log(result.systeme_io_error);
+                console.log("systeme_io_error : " + result.systeme_io_error);
             } 
+            else if ('mail_error' in result) {
+                console.log("mail_error : " + result.mail_error);
+            }
             else if ('success' in result) {
-                console.log("success : ");
-                console.log(result.success);
+                console.log("success : " + result.success);
             }
             else {
                 console.log("something wrong in the answer");

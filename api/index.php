@@ -81,7 +81,7 @@ function sendMailToHost($data): array {
  * @param string $email
  * @param string $first_name
  * @param string $surname
- * @return array{curl_error: string}|array{success: mixed}|array{systeme_io_error: mixed}
+ * @return array{curl_error: string}|array{success: mixed}|array{systeme_io_error: string}
  */
 function manageContacts(string $email, string $first_name, string $surname = ''): array {
     //initialisation
@@ -153,7 +153,7 @@ function manageContacts(string $email, string $first_name, string $surname = '')
 /**
  * Sends a request to system.io, and manages the results
  * @param array $curlOptions the options array for a curl request
- * @return array{curl_error: string}|array{success: mixed}|array{systeme_io_error: mixed}
+ * @return array{curl_error: string}|array{success: mixed}|array{systeme_io_error: string}
  */
 function sendSystemIoRequest(array $curlOptions): array {
     $curl = curl_init();
@@ -167,7 +167,7 @@ function sendSystemIoRequest(array $curlOptions): array {
 
     $results = json_decode($response, true);
     //detail is the identifier for the error messages from system.io
-    if (array_key_exists('detail', $results)) {return ["systeme_io_error" => $results];}
+    if (array_key_exists('detail', $results)) {return ["systeme_io_error" => $results['detail']];}
 
     return ['success' => $results];
 }
