@@ -41,14 +41,24 @@ try {
     $mail->Port       = 465;
     $mail->CharSet = 'UTF-8';
 
+    //custom vars
+    $fullName = "{$data['firstName']} {$data['surname']}";
+    $customBody = "
+        <p><strong>Nom :</strong> $fullName</p>
+        <p><strong>Email :</strong> {$data['email']}</p>
+        <hr>
+        <p><strong>Message :</strong></p>
+        <p>" . nl2br(htmlspecialchars($data['mailContent'])) . "</p>
+    ";
+
     // Recipients
-    $mail->setFrom('clairelise@avancer-avec.fr', $data['firstName']);
+    $mail->setFrom('clairelise@avancer-avec.fr', $fullName);
     $mail->addAddress('clairelise@avancer-avec.fr');
 
     // Content
     $mail->isHTML(true);
     $mail->Subject = $data['object'];
-    $mail->Body    = nl2br(htmlspecialchars($data['mailContent']));
+    $mail->Body    = $customBody;
 
     $mail->send();
     echo 'Email sent successfully';
