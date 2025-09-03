@@ -17,11 +17,14 @@
     justify-content: space-between;
 }
 
-.deal {
+.border {
     border-style: solid;
     border-color: rgb(101, 101, 101);
     border-radius: 30px;
     border-width: 3px;
+}
+
+.deal {
     background-color: #ffd087;
     width: 48%;
     text-align: center;
@@ -49,7 +52,8 @@
     display: flex;
 }
 
-.form input, .form textarea {
+.form input,
+.form textarea {
     background-color: #ffd087;
     color: black;
     border-style: solid;
@@ -61,10 +65,40 @@
     font-size: 1.1em;
 }
 
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px #ffd087 inset !important;
+    -webkit-text-fill-color: black !important;
+    transition: background-color 5000s ease-in-out 0s; /* Prevents flickering */
+}
+
+.submitButton {
+    cursor: pointer;
+}
+
+.submitButton:hover {
+    background-color: #e7bd79;
+}
+
+.submitButton:focus {
+    outline: 2px solid #80bdff;
+    outline-offset: 2px;
+}
+
 .mailContent {
     min-height: 200px;
     flex: 1;
     height: auto;
+}
+
+.popupMessage {
+    position: fixed;
+    top: 30%;
+    right: auto;
+    left: auto;
+    padding: 10px;
 }
 
 @media (max-width: 768px) {
@@ -75,9 +109,5 @@
     .form, .deal {
         width: 100%;
         margin-bottom: 1em;
-    }
-
-    .formRow {
-        flex-direction: column;
     }
 }
