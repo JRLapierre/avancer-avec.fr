@@ -1,6 +1,6 @@
 import type React from 'react';
 import styles from './styles.module.css'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const Contact = () => {
 
@@ -19,11 +19,12 @@ const Contact = () => {
         mailContent: ''
     });
 
+    const [popupMessage, setPopupMessage] = useState<{ text: string; type: 'success' | 'error' } | null>(null);
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
     };
-
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -42,7 +43,11 @@ const Contact = () => {
             }
 
             const result = (await response.json() as ApiResponse);
-            //TODO display messages
+            if ('success' in result) {
+                setPopupMessage({ text: 'Votre message a bien été envoyé', type: 'success' });
+                return;
+            }
+            setPopupMessage({ text: 'Une erreur est survenue, veuillez réessayer plus tard ou envoyer un mail à clairelise@avancer-avec.fr', type: 'error' });
             if ('json_error' in result) {
                 console.log("json_error : " + result.json_error);
             }
@@ -54,18 +59,23 @@ const Contact = () => {
             } 
             else if ('mail_error' in result) {
                 console.log("mail_error : " + result.mail_error);
-            }
-            else if ('success' in result) {
-                console.log("success : " + result.success);
-            }
+            } 
             else {
                 console.log("something wrong in the answer");
             }
         } catch (error) {
             console.error('Error:', error);
-            // TODO Handle error (e.g., show an error message)
         }
     };
+
+    useEffect(() => {
+        if (popupMessage) {
+            const timer = setTimeout(() => {
+                setPopupMessage(null);
+            }, 4000);
+            return () => {clearTimeout(timer)};
+        }
+    }, [popupMessage]);
 
     return (
         <>
@@ -92,7 +102,7 @@ const Contact = () => {
             </div>
         </div>
         <div className={styles.secondRow}>
-            <div className={styles.deal}>
+            <div className={`${styles.deal} ${styles.border}`}>
                 <div className={styles.modalites}>
                     <h3>Modalités :</h3>
                     <li>En présentiel chez vous, ou dans la nature, en marchant ou assis.</li>
@@ -165,11 +175,18 @@ const Contact = () => {
                         </textarea>
                     </div>
                     <div className={styles.formRow}>
-                        <input type="submit" value="Envoyer" />
+                        <input className={styles.submitButton} type="submit" value="Envoyer" />
                     </div>
                 </form>
             </div>
         </div>
+        {popupMessage && (
+            <div className={`${styles.popupMessage} ${styles.border}`} style={{
+                backgroundColor: popupMessage.type === 'error' ? 'red' : '#00f000',
+            }}>
+                {popupMessage.text}
+            </div>
+        )}
         </>
     );
 }
