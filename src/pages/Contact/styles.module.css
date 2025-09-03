@@ -16,11 +16,49 @@
 }
 
 .form {
+    width: 66%;
+}
+
+.form form {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.formRow {
+    width: 100%;
+    display: flex;
+}
+
+.form input, textarea {
     background-color: white;
+    color: black;
+    flex: 1;
+    margin: 3px;
+    font-size: 1.2em;
+}
+
+.mailContent {
+    min-height: 200px;
+    flex: 1;
+    height: auto;
+}
+
+.deal {
+    width: 33%;
 }
 
 @media (max-width: 768px) {
     .firstRow, .secondRow {
+        flex-direction: column;
+    }
+
+    .form, .deal {
+        width: 100%;
+    }
+
+    .formRow {
         flex-direction: column;
     }
 }

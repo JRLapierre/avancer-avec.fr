@@ -94,47 +94,57 @@ const Contact = () => {
         <div className={styles.secondRow}>
             <div className={styles.form}>
                 <form onSubmit={(e) => void handleSubmit(e)}>
-                    <input 
-                        type="email" 
-                        name="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        placeholder='email' 
-                        required 
-                    />
-                    <input 
-                        type="text"
-                        name="firstName" 
-                        value={formData.firstName}
-                        onChange={handleChange}
-                        placeholder='prénom' 
-                        required 
-                    />
-                    <input 
-                        type="text" 
-                        name="surname" 
-                        value={formData.surname}
-                        onChange={handleChange}
-                        placeholder='nom'
-                    />
-                    <input 
-                        type="text" 
-                        name="object" 
-                        value={formData.object}
-                        onChange={handleChange}
-                        placeholder='objet' 
-                        required 
-                    />
-                    <textarea 
-                        name="mailContent" 
-                        value={formData.mailContent}
-                        onChange={handleChange}
-                        placeholder='contenu du mail' 
-                        required 
-                    >
+                    <div className={styles.formRow}>
+                        <input 
+                            type="email" 
+                            name="email"
+                            value={formData.email}
+                            onChange={handleChange}
+                            placeholder='email' 
+                            required 
+                        />
+                    </div>
+                    <div className={styles.formRow}>
+                        <input 
+                            type="text"
+                            name="firstName" 
+                            value={formData.firstName}
+                            onChange={handleChange}
+                            placeholder='prénom' 
+                            required 
+                        />
+                        <input 
+                            type="text" 
+                            name="surname" 
+                            value={formData.surname}
+                            onChange={handleChange}
+                            placeholder='nom'
+                        />
+                    </div>
+                    <div className={styles.formRow}>
+                        <input 
+                            type="text" 
+                            name="object" 
+                            value={formData.object}
+                            onChange={handleChange}
+                            placeholder='objet' 
+                            required 
+                        />
+                    </div>
+                    <div className={`${styles.formRow} ${styles.mailContent}`}>
+                        <textarea 
+                            name="mailContent" 
+                            value={formData.mailContent}
+                            onChange={handleChange}
+                            placeholder='contenu du mail' 
+                            required 
+                        >
 
-                    </textarea>
-                    <input type="submit" value="Prendre rendez-vous" />
+                        </textarea>
+                    </div>
+                    <div className={styles.formRow}>
+                        <input type="submit" value="Prendre rendez-vous" />
+                    </div>
                 </form>
             </div>
             <div className={styles.deal}>
