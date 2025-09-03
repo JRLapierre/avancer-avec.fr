@@ -7,6 +7,7 @@ import NoPage from './pages/NoPage/index.tsx';
 import Home from './pages/Home/index.tsx';
 import Presentation from './pages/Presentation/index.tsx';
 import Blog from './pages/Blog/index.tsx';
+import Contact from './pages/Contact/index.tsx';
 import { NAV_BARS_HEIGHT } from './constants.ts';
 
 document.documentElement.style.setProperty('--nav-bars-height', `${NAV_BARS_HEIGHT.toString()}px`)
@@ -20,6 +21,7 @@ createRoot(document.getElementById('root')!).render(
           <Route index element={<Home />} />
           <Route path="presentation" element={<Presentation />} />
           <Route path="blog" element={<Blog />} />
+          <Route path='contact' element={<Contact />} />
           <Route path="*" element={<NoPage />} />
         </Route>
       </Routes>

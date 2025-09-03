@@ -52,9 +52,10 @@ const Header = () => {
                     Menu
                 </div>
                 <div ref={menuRef} className={styles.menu}>
-                    <Link to="/">Page d'accueil</Link>
+                    <Link to="/">accueil</Link>
                     <Link to="/presentation">Présentation</Link>
                     <Link to="/blog">Blog</Link>
+                    <Link to="/contact">Me contacter</Link>
                 </div>
             </nav>
         </header>
