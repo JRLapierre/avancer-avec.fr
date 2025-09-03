@@ -73,7 +73,7 @@ const Contact = () => {
             const timer = setTimeout(() => {
                 setPopupMessage(null);
             }, 4000);
-            return () => clearTimeout(timer);
+            return () => {clearTimeout(timer)};
         }
     }, [popupMessage]);
 
