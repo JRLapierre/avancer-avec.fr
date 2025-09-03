@@ -92,6 +92,26 @@ const Contact = () => {
             </div>
         </div>
         <div className={styles.secondRow}>
+            <div className={styles.deal}>
+                <div className={styles.modalites}>
+                    <h3>Modalités :</h3>
+                    <li>En présentiel chez vous, ou dans la nature, en marchant ou assis.</li>
+                    <li>Via un lien de visioconférence.</li>
+                    <li>Au rythme de chacun.</li>
+                    <li>Avec souplesse et rigueur (si si c’est compatible…).</li>
+                    <li>Une première séance sans engagement de poursuivre.</li>
+                    <li>Puis selon la progression, 4 à 10 séances dont une séance bilan.</li>
+                </div>
+                <div>
+                    <h3>Tarifs :</h3>
+                    <p>
+                        60 euros pour 45 minutes.<br/>
+                        Plus si dépassement<br/>
+                        <br/>
+                        Payables à la séance : espèces, chèque, virement.<br/>
+                    </p>
+                </div>
+            </div>
             <div className={styles.form}>
                 <form onSubmit={(e) => void handleSubmit(e)}>
                     <div className={styles.formRow}>
@@ -113,12 +133,14 @@ const Contact = () => {
                             placeholder='prénom' 
                             required 
                         />
+                    </div>
+                    <div className={styles.formRow}>
                         <input 
                             type="text" 
                             name="surname" 
                             value={formData.surname}
                             onChange={handleChange}
-                            placeholder='nom'
+                            placeholder='nom (facultatif)'
                         />
                     </div>
                     <div className={styles.formRow}>
@@ -136,38 +158,16 @@ const Contact = () => {
                             name="mailContent" 
                             value={formData.mailContent}
                             onChange={handleChange}
-                            placeholder='contenu du mail' 
+                            placeholder='Que voulez-vous dire ?' 
                             required 
                         >
 
                         </textarea>
                     </div>
                     <div className={styles.formRow}>
-                        <input type="submit" value="Prendre rendez-vous" />
+                        <input type="submit" value="Envoyer" />
                     </div>
                 </form>
-            </div>
-            <div className={styles.deal}>
-                <div>
-                    <h3>Modalités :</h3>
-                    <li>En présentiel chez vous, ou dans la nature, en marchant ou assis.</li>
-                    <li>Via un lien de visioconférence.</li>
-                </div>
-                <div>
-                    <li>Au rythme de chacun.</li>
-                    <li>Avec souplesse et rigueur (si si c’est compatible…).</li>
-                    <li>Une première séance sans engagement de poursuivre.</li>
-                    <li>Puis selon la progression, 4 à 10 séances dont une séance bilan.</li>
-                </div>
-                <div>
-                    <h3>Tarifs :</h3>
-                    <p>
-                        60 euros pour 45 minutes.<br/>
-                        Plus si dépassement<br/>
-                        <br/>
-                        Payables à la séance : espèces, chèque, virement.<br/>
-                    </p>
-                </div>
             </div>
         </div>
         </>
