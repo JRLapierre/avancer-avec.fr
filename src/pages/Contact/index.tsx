@@ -32,6 +32,8 @@ const Contact = () => {
         ]
     });
 
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
     const [popupMessage, setPopupMessage] = useState<{ text: string; type: 'success' | 'error' } | null>(null);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -50,7 +52,7 @@ const Contact = () => {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-
+        setIsSubmitting(true);
         try {
             const response = await fetch('/api/index.php', {
                 method: 'POST',
@@ -67,6 +69,7 @@ const Contact = () => {
             const result = (await response.json() as ApiResponse);
             if ('success' in result) {
                 setPopupMessage({ text: 'Votre message a bien été envoyé', type: 'success' });
+                setIsSubmitting(false);
                 return;
             }
             setPopupMessage({ text: 'Une erreur est survenue, veuillez réessayer plus tard ou envoyer un mail à clairelise@avancer-avec.fr', type: 'error' });
@@ -88,6 +91,7 @@ const Contact = () => {
         } catch (error) {
             console.error('Error:', error);
         }
+        setIsSubmitting(false);
     };
 
     useEffect(() => {
@@ -221,7 +225,7 @@ const Contact = () => {
 
                     <div className={styles.border}>
                         {formData.formType==='firstMeeting' && <div className={styles.submitSpeech}>Des réponses honnêtes à ce questionnaire m’aideront à vous proposer ce qui vous correspondra le mieux. </div>}
-                        <input className={styles.submitButton} type="submit" value="Envoyer" />
+                        <input className={styles.submitButton} type="submit" value="Envoyer" disabled={isSubmitting} />
                     </div>
                 </form>
             </div>
