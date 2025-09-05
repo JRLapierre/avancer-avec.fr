@@ -72,13 +72,8 @@
     flex-direction: column;
 }
 
-.question {
-    font-size: 1.1em;
-    font-weight: bold;
-}
-
-.questionRow textarea {
-    field-sizing: content; /*doesn't work everywhere, useAutoResideTextArea has been created to compensate*/
+.submitSpeech {
+    text-align: center;
 }
 
 /*Submit button style*/

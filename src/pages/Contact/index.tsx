@@ -1,11 +1,9 @@
 import type React from 'react';
 import styles from './styles.module.css'
 import { useEffect, useState } from 'react';
-import { useAutoResizeTextArea } from '../../hooks/useAutoResizeTextArea';
+import QuestionTextArea from '../../components/QuestionTextArea';
 
 const Contact = () => {
-
-    const resizeRef = useAutoResizeTextArea();
 
     type ApiResponse =
     | { json_error: string }
@@ -20,14 +18,33 @@ const Contact = () => {
         firstName: '',
         surname: '',
         object: '',
-        mailContent: ''
+        mailContent: '',
+        questions : [
+            {id: '1', question: 'Comment êtes-vous arrivés sur ce site ?', answer: ''},
+            {id: '2', question: 'Quelle est votre difficulté principale ?', answer: ''},
+            {id: '3', question: 'Quelle est votre difficulté secondaire ?', answer: ''},
+            {id: '4', question: 'Pourquoi recherchez-vous un accompagnement ?', answer: ''},
+            {id: '5', question: 'Quelles seraient les conséquences pour vous si votre vie continuait sans changements ?', answer: ''},
+            {id: '6', question: 'Quelles seraient les conséquences pour votre entourage si votre vie continuait sans changements ?', answer: ''},
+            {id: '7', question: 'Êtes-vous prêts à vous inscrire dans un processus vers le changement désiré ?', answer: ''},
+            {id: '8', question: 'Que désirez-vous au fond ?', answer: ''},
+        ]
     });
 
     const [popupMessage, setPopupMessage] = useState<{ text: string; type: 'success' | 'error' } | null>(null);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
-        setFormData(prev => ({ ...prev, [name]: value }));
+        if (name.startsWith('question-')) {
+            const id = name.split('-')[1];
+            setFormData(prev => ({
+                ...prev,
+                questions: prev.questions.map(q =>
+                    q.id === id ? { ...q, answer: value } : q
+                )
+            }));
+        }
+        else setFormData(prev => ({ ...prev, [name]: value }));
     };
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -190,21 +207,19 @@ const Contact = () => {
 
                         </textarea>
                     </div>}
-                    {/*TODO make into a component*/}
-                    {formData.formType==='firstMeeting' && <div className={`${styles.border} ${styles.questionRow}`}>
-                        <div className={styles.question}>comment êtes-vous arrivés sur ce site ?</div>
-                        <textarea
-                            ref={resizeRef}
-                            rows={1}
-                            name="mailContent" 
-                            value={formData.mailContent}
-                            onChange={handleChange}
-                            placeholder='Votre réponse...' 
-                            required 
-                        ></textarea>
-                    </div>}
+                    {formData.formType==='firstMeeting' && formData.questions.map((q) => (
+                        <div key={q.id} className={`${styles.border} ${styles.questionRow}`}>
+                            <QuestionTextArea 
+                                question={q.question} 
+                                value={q.answer} 
+                                name={`question-${q.id}`} 
+                                handleChange={handleChange}
+                            />
+                        </div>
+                    ))}
 
                     <div className={styles.border}>
+                        {formData.formType==='firstMeeting' && <div className={styles.submitSpeech}>Des réponses honnêtes à ce questionnaire m’aideront à vous proposer ce qui vous correspondra le mieux. </div>}
                         <input className={styles.submitButton} type="submit" value="Envoyer" />
                     </div>
                 </form>
