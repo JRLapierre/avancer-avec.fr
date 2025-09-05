@@ -28,6 +28,7 @@ const Contact = () => {
             {id: '6', question: 'Quelles seraient les conséquences pour votre entourage si votre vie continuait sans changements ?', answer: ''},
             {id: '7', question: 'Êtes-vous prêts à vous inscrire dans un processus vers le changement désiré ?', answer: ''},
             {id: '8', question: 'Que désirez-vous au fond ?', answer: ''},
+            {id: '9', question: 'Quelles sont vos disponibilités pour cet entretien ?', answer: ''},
         ]
     });
 
