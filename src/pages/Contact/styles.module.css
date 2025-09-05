@@ -22,10 +22,12 @@
     border-color: rgb(101, 101, 101);
     border-radius: 30px;
     border-width: 3px;
+    background-color: #ffd087;
+    padding: 10px;
 }
 
+/*deal side*/
 .deal {
-    background-color: #ffd087;
     width: 48%;
     text-align: center;
 }
@@ -35,6 +37,7 @@
     margin-bottom: 0.8rem;
 }
 
+/*form side*/
 .form {
     width: 48%;
     right: 0;
@@ -47,33 +50,33 @@
     gap: 3px;
 }
 
-.formRow {
+.border input,
+.border select,
+.border textarea {
+    color: black;
+    background-color: #ffd087;
+    border: none;
     width: 100%;
+    font-size: 1.1em;
+    resize: none;
+}
+
+.mailContent {
+    min-height: 200px;
+    flex: 1;
     display: flex;
 }
 
-.form input,
-.form textarea {
-    background-color: #ffd087;
-    color: black;
-    border-style: solid;
-    border-color: rgb(101, 101, 101);
-    padding: 10px;
-    border-radius: 20px;
-    border-width: 3px;
-    flex: 1;
-    font-size: 1.1em;
+.questionRow {
+    display: flex;
+    flex-direction: column;
 }
 
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus,
-input:-webkit-autofill:active {
-    -webkit-box-shadow: 0 0 0 30px #ffd087 inset !important;
-    -webkit-text-fill-color: black !important;
-    transition: background-color 5000s ease-in-out 0s; /* Prevents flickering */
+.submitSpeech {
+    text-align: center;
 }
 
+/*Submit button style*/
 .submitButton {
     cursor: pointer;
 }
@@ -82,17 +85,7 @@ input:-webkit-autofill:active {
     background-color: #e7bd79;
 }
 
-.submitButton:focus {
-    outline: 2px solid #80bdff;
-    outline-offset: 2px;
-}
-
-.mailContent {
-    min-height: 200px;
-    flex: 1;
-    height: auto;
-}
-
+/*pop up that appears after the form is validated*/
 .popupMessage {
     position: fixed;
     top: 30%;

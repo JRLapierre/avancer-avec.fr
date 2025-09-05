@@ -1,6 +1,7 @@
 import type React from 'react';
 import styles from './styles.module.css'
 import { useEffect, useState } from 'react';
+import QuestionTextArea from '../../components/QuestionTextArea';
 
 const Contact = () => {
 
@@ -12,23 +13,46 @@ const Contact = () => {
     | { success: string }
 
     const [formData, setFormData] = useState({
+        formType: 'defaultMessage',
         email: '',
         firstName: '',
         surname: '',
         object: '',
-        mailContent: ''
+        mailContent: '',
+        questions : [
+            {id: '1', question: 'Comment êtes-vous arrivés sur ce site ?', answer: ''},
+            {id: '2', question: 'Quelle est votre difficulté principale ?', answer: ''},
+            {id: '3', question: 'Quelle est votre difficulté secondaire ?', answer: ''},
+            {id: '4', question: 'Pourquoi recherchez-vous un accompagnement ?', answer: ''},
+            {id: '5', question: 'Quelles seraient les conséquences pour vous si votre vie continuait sans changements ?', answer: ''},
+            {id: '6', question: 'Quelles seraient les conséquences pour votre entourage si votre vie continuait sans changements ?', answer: ''},
+            {id: '7', question: 'Êtes-vous prêts à vous inscrire dans un processus vers le changement désiré ?', answer: ''},
+            {id: '8', question: 'Que désirez-vous au fond ?', answer: ''},
+            {id: '9', question: 'Quelles sont vos disponibilités pour cet entretien ?', answer: ''},
+        ]
     });
+
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const [popupMessage, setPopupMessage] = useState<{ text: string; type: 'success' | 'error' } | null>(null);
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
-        setFormData(prev => ({ ...prev, [name]: value }));
+        if (name.startsWith('question-')) {
+            const id = name.split('-')[1];
+            setFormData(prev => ({
+                ...prev,
+                questions: prev.questions.map(q =>
+                    q.id === id ? { ...q, answer: value } : q
+                )
+            }));
+        }
+        else setFormData(prev => ({ ...prev, [name]: value }));
     };
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-
+        setIsSubmitting(true);
         try {
             const response = await fetch('/api/index.php', {
                 method: 'POST',
@@ -45,6 +69,7 @@ const Contact = () => {
             const result = (await response.json() as ApiResponse);
             if ('success' in result) {
                 setPopupMessage({ text: 'Votre message a bien été envoyé', type: 'success' });
+                setIsSubmitting(false);
                 return;
             }
             setPopupMessage({ text: 'Une erreur est survenue, veuillez réessayer plus tard ou envoyer un mail à clairelise@avancer-avec.fr', type: 'error' });
@@ -66,6 +91,7 @@ const Contact = () => {
         } catch (error) {
             console.error('Error:', error);
         }
+        setIsSubmitting(false);
     };
 
     useEffect(() => {
@@ -102,29 +128,41 @@ const Contact = () => {
             </div>
         </div>
         <div className={styles.secondRow}>
-            <div className={`${styles.deal} ${styles.border}`}>
-                <div className={styles.modalites}>
-                    <h3>Modalités :</h3>
-                    <li>En présentiel chez vous, ou dans la nature, en marchant ou assis.</li>
-                    <li>Via un lien de visioconférence.</li>
-                    <li>Au rythme de chacun.</li>
-                    <li>Avec souplesse et rigueur (si si c’est compatible…).</li>
-                    <li>Une première séance sans engagement de poursuivre.</li>
-                    <li>Puis selon la progression, 4 à 10 séances dont une séance bilan.</li>
-                </div>
-                <div>
-                    <h3>Tarifs :</h3>
-                    <p>
-                        60 euros pour 45 minutes.<br/>
-                        Plus si dépassement<br/>
-                        <br/>
-                        Payables à la séance : espèces, chèque, virement.<br/>
-                    </p>
+            <div className={styles.deal}>
+                <div className={styles.border}>
+                    <div className={styles.modalites}>
+                        <h3>Modalités :</h3>
+                        <li>En présentiel chez vous, ou dans la nature, en marchant ou assis.</li>
+                        <li>Via un lien de visioconférence.</li>
+                        <li>Au rythme de chacun.</li>
+                        <li>Avec souplesse et rigueur (si si c’est compatible…).</li>
+                        <li>Une première séance sans engagement de poursuivre.</li>
+                        <li>Puis selon la progression, 4 à 10 séances dont une séance bilan.</li>
+                    </div>
+                    <div>
+                        <h3>Tarifs :</h3>
+                        <p>
+                            60 euros pour 45 minutes.<br/>
+                            Plus si dépassement<br/>
+                            <br/>
+                            Payables à la séance : espèces, chèque, virement.<br/>
+                        </p>
+                    </div>
                 </div>
             </div>
             <div className={styles.form}>
                 <form onSubmit={(e) => void handleSubmit(e)}>
-                    <div className={styles.formRow}>
+                    <div className={styles.border}>
+                        <select 
+                            name="formType"
+                            value={formData.formType}
+                            onChange={handleChange}
+                            required>
+                            <option value="defaultMessage">Envoyer un message</option>
+                            <option value="firstMeeting">Premier rendez-vous gratuit de 30 minutes</option>
+                        </select>
+                    </div>
+                    <div className={styles.border}>
                         <input 
                             type="email" 
                             name="email"
@@ -134,7 +172,7 @@ const Contact = () => {
                             required 
                         />
                     </div>
-                    <div className={styles.formRow}>
+                    <div className={styles.border}>
                         <input 
                             type="text"
                             name="firstName" 
@@ -144,7 +182,7 @@ const Contact = () => {
                             required 
                         />
                     </div>
-                    <div className={styles.formRow}>
+                    <div className={styles.border}>
                         <input 
                             type="text" 
                             name="surname" 
@@ -153,7 +191,7 @@ const Contact = () => {
                             placeholder='nom (facultatif)'
                         />
                     </div>
-                    <div className={styles.formRow}>
+                    {formData.formType==='defaultMessage' && <div className={styles.border}>
                         <input 
                             type="text" 
                             name="object" 
@@ -162,8 +200,8 @@ const Contact = () => {
                             placeholder='objet' 
                             required 
                         />
-                    </div>
-                    <div className={`${styles.formRow} ${styles.mailContent}`}>
+                    </div>}
+                    {formData.formType==='defaultMessage' && <div className={`${styles.mailContent} ${styles.border}`}>
                         <textarea 
                             name="mailContent" 
                             value={formData.mailContent}
@@ -173,9 +211,21 @@ const Contact = () => {
                         >
 
                         </textarea>
-                    </div>
-                    <div className={styles.formRow}>
-                        <input className={styles.submitButton} type="submit" value="Envoyer" />
+                    </div>}
+                    {formData.formType==='firstMeeting' && formData.questions.map((q) => (
+                        <div key={q.id} className={`${styles.border} ${styles.questionRow}`}>
+                            <QuestionTextArea 
+                                question={q.question} 
+                                value={q.answer} 
+                                name={`question-${q.id}`} 
+                                handleChange={handleChange}
+                            />
+                        </div>
+                    ))}
+
+                    <div className={styles.border}>
+                        {formData.formType==='firstMeeting' && <div className={styles.submitSpeech}>Des réponses honnêtes à ce questionnaire m’aideront à vous proposer ce qui vous correspondra le mieux. </div>}
+                        <input className={styles.submitButton} type="submit" value="Envoyer" disabled={isSubmitting} />
                     </div>
                 </form>
             </div>
