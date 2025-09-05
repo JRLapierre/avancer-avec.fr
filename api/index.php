@@ -33,20 +33,45 @@ echo json_encode(sendMailToHost($data));
 //functions -----------------------------------------------------------------------------
 
 /**
+ * Creates the body of the mail depending on the content of the datas
+ * @param mixed $data the data recieved from the front
+ * @return string the html body of the mail
+ */
+function createMailBody($data) {
+    $baseBody = "
+        <p><strong>Nom :</strong> {$data['firstName']} {$data['surname']}</p>
+        <p><strong>Email :</strong> {$data['email']}</p>
+        <hr>
+    ";
+    if ($data['formType'] == 'defaultMessage') {
+        return $baseBody.
+            "<p><strong>Message :</strong></p>
+            <p>" . nl2br(htmlspecialchars($data['mailContent'])) . "</p>";
+    }
+    elseif ($data['formType'] == 'firstMeeting') {
+        $body = $baseBody;
+        foreach ($data['questions'] as $question) {
+            $body .="<p><strong>".htmlspecialchars($question['question'])."</strong></p>
+                <p>".nl2br(htmlspecialchars($question['answer']))."</p>";
+        }
+        return $body;
+    }
+    //should not happend
+    return "problème dans le formulaire";
+}
+
+/**
  * This function sends the result of the form to clairelise@avancer-avec.fr
  * @param array $data the data from the form
  * @return array{mail_error: string}|array{success: string}
  */
 function sendMailToHost($data): array {
     //custom vars
-    $fullName = "{$data['firstName']} {$data['surname']}";
-    $customBody = "
-        <p><strong>Nom :</strong> $fullName</p>
-        <p><strong>Email :</strong> {$data['email']}</p>
-        <hr>
-        <p><strong>Message :</strong></p>
-        <p>" . nl2br(htmlspecialchars($data['mailContent'])) . "</p>
-    ";
+    $customBody = createMailBody($data);
+    $object = $data['object'];
+    if ($data['formType'] == 'firstMeeting') {
+        $object = "demande de premier rendez-vous gratuit";
+    }
 
     $mail = new PHPMailer(true);
     try {
@@ -61,12 +86,12 @@ function sendMailToHost($data): array {
         $mail->CharSet = 'UTF-8';
 
         // Recipients
-        $mail->setFrom('clairelise@avancer-avec.fr', $fullName);
+        $mail->setFrom('clairelise@avancer-avec.fr', "{$data['firstName']} {$data['surname']}");
         $mail->addAddress('clairelise@avancer-avec.fr');
 
         // Content
         $mail->isHTML(true);
-        $mail->Subject = $data['object'];
+        $mail->Subject = $object;
         $mail->Body    = $customBody;
 
         $mail->send();
