@@ -1,8 +1,11 @@
 import type React from 'react';
 import styles from './styles.module.css'
 import { useEffect, useState } from 'react';
+import { useAutoResizeTextArea } from '../../hooks/useAutoResizeTextArea';
 
 const Contact = () => {
+
+    const resizeRef = useAutoResizeTextArea();
 
     type ApiResponse =
     | { json_error: string }
@@ -12,6 +15,7 @@ const Contact = () => {
     | { success: string }
 
     const [formData, setFormData] = useState({
+        formType: 'defaultMessage',
         email: '',
         firstName: '',
         surname: '',
@@ -21,7 +25,7 @@ const Contact = () => {
 
     const [popupMessage, setPopupMessage] = useState<{ text: string; type: 'success' | 'error' } | null>(null);
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
     };
@@ -102,29 +106,41 @@ const Contact = () => {
             </div>
         </div>
         <div className={styles.secondRow}>
-            <div className={`${styles.deal} ${styles.border}`}>
-                <div className={styles.modalites}>
-                    <h3>Modalités :</h3>
-                    <li>En présentiel chez vous, ou dans la nature, en marchant ou assis.</li>
-                    <li>Via un lien de visioconférence.</li>
-                    <li>Au rythme de chacun.</li>
-                    <li>Avec souplesse et rigueur (si si c’est compatible…).</li>
-                    <li>Une première séance sans engagement de poursuivre.</li>
-                    <li>Puis selon la progression, 4 à 10 séances dont une séance bilan.</li>
-                </div>
-                <div>
-                    <h3>Tarifs :</h3>
-                    <p>
-                        60 euros pour 45 minutes.<br/>
-                        Plus si dépassement<br/>
-                        <br/>
-                        Payables à la séance : espèces, chèque, virement.<br/>
-                    </p>
+            <div className={styles.deal}>
+                <div className={styles.border}>
+                    <div className={styles.modalites}>
+                        <h3>Modalités :</h3>
+                        <li>En présentiel chez vous, ou dans la nature, en marchant ou assis.</li>
+                        <li>Via un lien de visioconférence.</li>
+                        <li>Au rythme de chacun.</li>
+                        <li>Avec souplesse et rigueur (si si c’est compatible…).</li>
+                        <li>Une première séance sans engagement de poursuivre.</li>
+                        <li>Puis selon la progression, 4 à 10 séances dont une séance bilan.</li>
+                    </div>
+                    <div>
+                        <h3>Tarifs :</h3>
+                        <p>
+                            60 euros pour 45 minutes.<br/>
+                            Plus si dépassement<br/>
+                            <br/>
+                            Payables à la séance : espèces, chèque, virement.<br/>
+                        </p>
+                    </div>
                 </div>
             </div>
             <div className={styles.form}>
                 <form onSubmit={(e) => void handleSubmit(e)}>
-                    <div className={styles.formRow}>
+                    <div className={styles.border}>
+                        <select 
+                            name="formType"
+                            value={formData.formType}
+                            onChange={handleChange}
+                            required>
+                            <option value="defaultMessage">Envoyer un message</option>
+                            <option value="firstMeeting">Premier rendez-vous gratuit de 30 minutes</option>
+                        </select>
+                    </div>
+                    <div className={styles.border}>
                         <input 
                             type="email" 
                             name="email"
@@ -134,7 +150,7 @@ const Contact = () => {
                             required 
                         />
                     </div>
-                    <div className={styles.formRow}>
+                    <div className={styles.border}>
                         <input 
                             type="text"
                             name="firstName" 
@@ -144,7 +160,7 @@ const Contact = () => {
                             required 
                         />
                     </div>
-                    <div className={styles.formRow}>
+                    <div className={styles.border}>
                         <input 
                             type="text" 
                             name="surname" 
@@ -153,7 +169,7 @@ const Contact = () => {
                             placeholder='nom (facultatif)'
                         />
                     </div>
-                    <div className={styles.formRow}>
+                    {formData.formType==='defaultMessage' && <div className={styles.border}>
                         <input 
                             type="text" 
                             name="object" 
@@ -162,8 +178,8 @@ const Contact = () => {
                             placeholder='objet' 
                             required 
                         />
-                    </div>
-                    <div className={`${styles.formRow} ${styles.mailContent}`}>
+                    </div>}
+                    {formData.formType==='defaultMessage' && <div className={`${styles.mailContent} ${styles.border}`}>
                         <textarea 
                             name="mailContent" 
                             value={formData.mailContent}
@@ -173,8 +189,22 @@ const Contact = () => {
                         >
 
                         </textarea>
-                    </div>
-                    <div className={styles.formRow}>
+                    </div>}
+                    {/*TODO make into a component*/}
+                    {formData.formType==='firstMeeting' && <div className={`${styles.border} ${styles.questionRow}`}>
+                        <div className={styles.question}>comment êtes-vous arrivés sur ce site ?</div>
+                        <textarea
+                            ref={resizeRef}
+                            rows={1}
+                            name="mailContent" 
+                            value={formData.mailContent}
+                            onChange={handleChange}
+                            placeholder='Votre réponse...' 
+                            required 
+                        ></textarea>
+                    </div>}
+
+                    <div className={styles.border}>
                         <input className={styles.submitButton} type="submit" value="Envoyer" />
                     </div>
                 </form>
