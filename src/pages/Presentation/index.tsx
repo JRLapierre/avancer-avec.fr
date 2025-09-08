@@ -38,14 +38,11 @@ const Presentation = () => {
                 
                 J’ai vécu dans plusieurs régions de France et y ai exercé mon métier d’infirmière dans différent secteurs.
                 
-                Avec un ancrage solide de valeurs, je m’adapte facilement partout où je passe. Pour moi chaque personne est un
-                trésor qui mérite de l’attention. Je suis curieuse de ce que je vois et aime découvrir et apprendre.
+                Avec un ancrage solide de valeurs, je m’adapte facilement partout où je passe. Pour moi chaque personne est un trésor qui mérite de l’attention. Je suis curieuse de ce que je vois et aime découvrir et apprendre.
                 
-                Ma grande expérience d’accompagnement des ados (infirmière pendant plus de vingt ans dans l’éducation nationale)
-                et d’adultes (engagements bénévoles) m’ont conduit à me diriger vers la formation de coach.
+                Ma grande expérience d’accompagnement des ados (infirmière pendant plus de vingt ans dans l’éducation nationale) et d’adultes (engagements bénévoles) m’ont conduit à me diriger vers la formation de coach.
                 
-                Après toutes ces années, j’ai décidé de me recentrer sur mes points forts notamment l’écoute active. Parfois
-                frustrée de mes limites, j’ai trouvé dans la formation de coach des outils efficaces.
+                Après toutes ces années, j’ai décidé de me recentrer sur mes points forts notamment l’écoute active. Parfois frustrée de mes limites, j’ai trouvé dans la formation de coach des outils efficaces.
             `
         }, 
         {
