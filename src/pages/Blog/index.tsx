@@ -13,21 +13,21 @@ const Blog = () => {
             <div className={styles.border}>
                 <img src={bridge} alt="pont" />
                 <p>
-                    Zone de confort, ça vous dit quelque chose ?<br/>
+                    Zone de confort, ça vous dit quelque chose ?<br/>
                     Ce qui est difficile pour l’un ne l’est pas forcément pour un autre.<br/>
                     Ce qui m’amène à dire que pour oser, pour commencer à oser, j’ai parfois
                     besoin de l’aide d’un autre pour lequel, ce que j’entreprends n’est pas – ou
                     n’est plus si difficile.<br/>
-                    Par exemple, cette belle photo ci-dessus et son texte : je ne savais pas
+                    Par exemple, cette belle photo ci-dessus et son texte : je ne savais pas
                     comment la trouver, vous l’amener. Et je n’osais pas, trop difficile, peur de faire
-                    des bêtises avec l’ordinateur. Mais une amie savait faire, ayant appris par jeu ;
+                    des bêtises avec l’ordinateur. Mais une amie savait faire, ayant appris par jeu ;
                     donc nous avons fait ensemble et ce n’est (presque) plus difficile pour moi.<br/>
                     J’ose chercher et trouver seule et avec plaisir.<br/>
-                    Réflexion : ai-je besoin d’aide pour oser ?<br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Toujours ?<br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dans quels domaines principalement ?<br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Et… suis-je disponible pour apporter un petit coup de « boost » à
-                    quelqu’un ? Rassurer, apporter des compétences pour permettre d’oser ?<br/>
+                    Réflexion : ai-je besoin d’aide pour oser ?<br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Toujours ?<br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dans quels domaines principalement ?<br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Et… suis-je disponible pour apporter un petit coup de « boost » à
+                    quelqu’un ? Rassurer, apporter des compétences pour permettre d’oser ?<br/>
                 </p>
             </div>
             <div className={styles.border}>
