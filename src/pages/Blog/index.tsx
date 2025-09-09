@@ -1,8 +1,17 @@
 import styles from "./styles.module.css"
 import bridge from "../../assets/pages/Blog/bridge-1837210_1280.jpg"
+import { useClickOutside } from "../../hooks/useClickOutside";
 
 const Blog = () => {
+
+    const [menuRef, isMenuVisible, setIsMenuVisible] = useClickOutside<HTMLDivElement>(false);
+
+    const toggleMenu = () => {
+        setIsMenuVisible(!isMenuVisible);
+    };
+
     return (
+        <>
         <div className={styles.imageBloc}>
             <h1>Petit pas pour avancer</h1>
             <p className={styles.quote}>
@@ -34,9 +43,13 @@ const Blog = () => {
                 <p>Je vous ai préparé une douzaine de “petits pas pour avancer”. En voulez-vous? Je vous les envoie gratuitement deux fois par semaine. Inscrivez-vous.</p>
             </div>
             <div className={styles.border}>
-                <button className={styles.submitButton} type="submit">Recevoir d'autres petits pas pour avancer</button>
+                <button className={styles.submitButton} type="submit" onClick={toggleMenu}>Recevoir d'autres petits pas pour avancer</button>
             </div>
         </div>
+        {isMenuVisible && <div ref={menuRef} className={styles.menu}>
+
+        </div>}
+        </>
     )
 }
 
