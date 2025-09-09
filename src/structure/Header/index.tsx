@@ -1,38 +1,21 @@
 import { Link } from 'react-router-dom';
 import styles from './styles.module.css';
 import logo from '/logo.png';
-import { useEffect, useRef } from 'react';
+import { useClickOutside } from '../../hooks/useClickOutside';
+import { useScreenWiderThan } from '../../hooks/useScreenWiderThan';
 
 
 const Header = () => {
 
-    const menuRef = useRef<HTMLDivElement | null>(null);
+    const [menuRef, isMenuVisible, setIsMenuVisible] = useClickOutside<HTMLDivElement>(false);
+    const isDesktop = useScreenWiderThan(768);
 
     /**
      * Permits the display of the menu on a narrow screen
      */
     const toggleMenu = () => {
-        if (!menuRef.current) return;
-        menuRef.current.style.display =  'flex';
+        setIsMenuVisible(!isMenuVisible);
     };
-
-    /**
-     * Takes menu away if we click anywere else on the screen
-     */
-    useEffect(() => {
-        function handleClickOutside(event: MouseEvent) {
-            if (!menuRef.current) return;
-            const mediaQuery = window.matchMedia("(max-width: 768px)");
-            const target = event.target as Node;
-            if (!menuRef.current.contains(target) && mediaQuery.matches) {
-                menuRef.current.style.display = '';
-            }
-        }
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
-    }, []);
 
     return(
         <header>
@@ -51,12 +34,12 @@ const Header = () => {
                 <div onClick={toggleMenu} className={styles.menu_icon}>
                     Menu
                 </div>
-                <div ref={menuRef} className={styles.menu}>
+                {(isDesktop || isMenuVisible) && <div ref={menuRef} className={styles.menu}>
                     <Link to="/">accueil</Link>
                     <Link to="/presentation">Présentation</Link>
                     <Link to="/blog">Blog</Link>
                     <Link to="/contact">Me contacter</Link>
-                </div>
+                </div>}
             </nav>
         </header>
     )
