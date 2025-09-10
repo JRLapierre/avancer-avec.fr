@@ -2,7 +2,11 @@ import styles from './styles.module.css'
 import { useState, useEffect } from "react";
 import QuestionTextArea from "../QuestionTextArea";
 
-const Multiform : React.FC = () => {
+interface MultiformProps {
+    intialFormType?: '' | 'defaultMessage' | 'firstMeeting' | 'mailSubscription';
+}
+
+const Multiform : React.FC<MultiformProps> = ({ intialFormType = ''}) => {
 
     type ApiResponse =
     | { json_error: string }
@@ -12,7 +16,7 @@ const Multiform : React.FC = () => {
     | { success: string }
 
     const [formData, setFormData] = useState({
-        formType: 'defaultMessage',
+        formType: intialFormType === '' ? 'defaultMessage' : intialFormType,
         email: '',
         firstName: '',
         surname: '',
@@ -105,7 +109,7 @@ const Multiform : React.FC = () => {
     return (
         <>
         <form className={styles.form} onSubmit={(e) => void handleSubmit(e)}>
-            <div className={styles.border}>
+            {intialFormType === '' && <div className={styles.border}>
                 <select 
                     name="formType"
                     value={formData.formType}
@@ -113,8 +117,9 @@ const Multiform : React.FC = () => {
                     required>
                     <option value="defaultMessage">Envoyer un message</option>
                     <option value="firstMeeting">Premier rendez-vous gratuit de 30 minutes</option>
+                    <option value="mailSubscription">S'inscrire à "Mes petits pas pour avancer</option>
                 </select>
-            </div>
+            </div>}
             <div className={styles.border}>
                 <input 
                     type="email" 
@@ -178,7 +183,7 @@ const Multiform : React.FC = () => {
 
             <div className={styles.border}>
                 {formData.formType==='firstMeeting' && <div className={styles.submitSpeech}>Des réponses honnêtes à ce questionnaire m’aideront à vous proposer ce qui vous correspondra le mieux. </div>}
-                <input className={styles.submitButton} type="submit" value="Envoyer" disabled={isSubmitting} />
+                <input className={styles.submitButton} type="submit" value={formData.formType === 'mailSubscription' ? "s'inscrire" : "Envoyer"} disabled={isSubmitting} />
             </div>
         </form>
         {popupMessage && (

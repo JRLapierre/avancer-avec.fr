@@ -48,7 +48,7 @@ const Blog = () => {
             </div>
         </div>
         {isMenuVisible && <div ref={menuRef} className={styles.menu}>
-            <Multiform/>
+            <Multiform intialFormType="mailSubscription"/>
         </div>}
         </>
     )
