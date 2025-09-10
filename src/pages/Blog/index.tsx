@@ -5,10 +5,10 @@ import Multiform from "../../components/Multiform";
 
 const Blog = () => {
 
-    const [menuRef, isMenuVisible, setIsMenuVisible] = useClickOutside<HTMLDivElement>(false);
+    const [subscriptionRef, isSubscriptionVisible, setIsSubscriptionVisible] = useClickOutside<HTMLDivElement>(false);
 
     const toggleMenu = () => {
-        setIsMenuVisible(!isMenuVisible);
+        setIsSubscriptionVisible(!isSubscriptionVisible);
     };
 
     return (
@@ -47,7 +47,7 @@ const Blog = () => {
                 <button className={styles.submitButton} type="submit" onClick={toggleMenu}>Recevoir d'autres petits pas pour avancer</button>
             </div>
         </div>
-        {isMenuVisible && <div ref={menuRef} className={styles.menu}>
+        {isSubscriptionVisible && <div ref={subscriptionRef} className={`${styles.subscription} ${styles.border}`}>
             <Multiform intialFormType="mailSubscription"/>
         </div>}
         </>
