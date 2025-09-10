@@ -1,0 +1,59 @@
+.form {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.border {
+    border-style: solid;
+    border-color: rgb(101, 101, 101);
+    border-radius: 30px;
+    border-width: 3px;
+    background-color: #ffd087;
+    padding: 10px;
+}
+
+.border input,
+.border select,
+.border textarea {
+    color: black;
+    background-color: #ffd087;
+    border: none;
+    width: 100%;
+    font-size: 1.1em;
+    resize: none;
+}
+
+.mailContent {
+    min-height: 200px;
+    flex: 1;
+    display: flex;
+}
+
+.questionRow {
+    display: flex;
+    flex-direction: column;
+}
+
+.submitSpeech {
+    text-align: center;
+}
+
+/*Submit button style*/
+.submitButton {
+    cursor: pointer;
+}
+
+.submitButton:hover {
+    background-color: #e7bd79;
+}
+
+/*pop up that appears after the form is validated*/
+.popupMessage {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 10px;
+}

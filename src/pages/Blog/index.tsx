@@ -1,6 +1,7 @@
 import styles from "./styles.module.css"
 import bridge from "../../assets/pages/Blog/bridge-1837210_1280.jpg"
 import { useClickOutside } from "../../hooks/useClickOutside";
+import Multiform from "../../components/Multiform";
 
 const Blog = () => {
 
@@ -47,7 +48,7 @@ const Blog = () => {
             </div>
         </div>
         {isMenuVisible && <div ref={menuRef} className={styles.menu}>
-
+            <Multiform/>
         </div>}
         </>
     )
