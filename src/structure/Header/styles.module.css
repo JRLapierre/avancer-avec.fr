@@ -40,7 +40,7 @@ header {
 
     /* Makes the default menu non visible on narrow screen */
     .menu {
-        display: none;
+        display: flex;
         position: fixed;
         background-color: black;
         flex-direction: column;

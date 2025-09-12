@@ -22,6 +22,7 @@ if (json_last_error() !== JSON_ERROR_NONE) {
 //save the informations in the contacts
 $contactResult = manageContacts($data['email'], $data['firstName'], $data['surname']);
 
+//an error happend while trying to save the contact
 if (!array_key_exists('success', $contactResult)) {
     echo json_encode($contactResult);
     exit;
@@ -57,7 +58,7 @@ function createMailBody($data) {
         return $body;
     }
     //should not happend
-    return "problème dans le formulaire";
+    return "error";
 }
 
 /**
@@ -68,6 +69,9 @@ function createMailBody($data) {
 function sendMailToHost($data): array {
     //custom vars
     $customBody = createMailBody($data);
+    if ($customBody == "error") {
+        return ["form_error" => "problème dans le formulaire"];
+    }
     $object = $data['object'];
     if ($data['formType'] == 'firstMeeting') {
         $object = "demande de premier rendez-vous gratuit";
@@ -112,7 +116,7 @@ function manageContacts(string $email, string $first_name, string $surname = '')
     //initialisation
     $baseUrl = "https://api.systeme.io/api/";
     $headers = [
-        "X-API-Key: e6dai7b4okflm6dt5f8cbvwi4gzad0cuvcsmqjc52uacchu9unpng4npwlwlmwpw",
+        "X-API-Key: ".$_ENV['SYSTEMEIO_API_KEY'],
         "accept: application/json",
     ];
 

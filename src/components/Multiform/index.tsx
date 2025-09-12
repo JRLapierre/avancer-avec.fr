@@ -1,0 +1,204 @@
+import styles from './styles.module.css'
+import { useState, useEffect } from "react";
+import QuestionTextArea from "../QuestionTextArea";
+
+interface MultiformProps {
+    intialFormType?: '' | 'defaultMessage' | 'firstMeeting' | 'mailSubscription';
+}
+
+const Multiform : React.FC<MultiformProps> = ({ intialFormType = ''}) => {
+
+    type ApiResponse =
+    | { json_error: string }
+    | { curl_error: string }
+    | { mail_error: string }
+    | { form_error: string }
+    | { systeme_io_error: string }
+    | { success: string }
+
+    const [formData, setFormData] = useState({
+        formType: intialFormType === '' ? 'defaultMessage' : intialFormType,
+        email: '',
+        firstName: '',
+        surname: '',
+        object: '',
+        mailContent: '',
+        questions : [
+            {id: '1', question: 'Comment êtes-vous arrivés sur ce site ?', answer: ''},
+            {id: '2', question: 'Quelle est votre difficulté principale ?', answer: ''},
+            {id: '3', question: 'Quelle est votre difficulté secondaire ?', answer: ''},
+            {id: '4', question: 'Pourquoi recherchez-vous un accompagnement ?', answer: ''},
+            {id: '5', question: 'Quelles seraient les conséquences pour vous si votre vie continuait sans changements ?', answer: ''},
+            {id: '6', question: 'Quelles seraient les conséquences pour votre entourage si votre vie continuait sans changements ?', answer: ''},
+            {id: '7', question: 'Êtes-vous prêts à vous inscrire dans un processus vers le changement désiré ?', answer: ''},
+            {id: '8', question: 'Que désirez-vous au fond ?', answer: ''},
+            {id: '9', question: 'Quelles sont vos disponibilités pour cet entretien ?', answer: ''},
+        ]
+    });
+
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
+    const [popupMessage, setPopupMessage] = useState<{ text: string; type: 'success' | 'error' } | null>(null);
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+        const { name, value } = e.target;
+        if (name.startsWith('question-')) {
+            const id = name.split('-')[1];
+            setFormData(prev => ({
+                ...prev,
+                questions: prev.questions.map(q =>
+                    q.id === id ? { ...q, answer: value } : q
+                )
+            }));
+        }
+        else setFormData(prev => ({ ...prev, [name]: value }));
+    };
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        setIsSubmitting(true);
+        try {
+            const response = await fetch('/api/index.php', {
+                method: 'POST',
+                headers: {
+                    'Content-type': 'application/json;charset=UTF-8',
+                },
+                body: JSON.stringify(formData),//for standard JSON
+            });
+            
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            const result = (await response.json() as ApiResponse);
+            if ('success' in result) {
+                setPopupMessage({ text: 'Votre message a bien été envoyé', type: 'success' });
+                setIsSubmitting(false);
+                return;
+            }
+            setPopupMessage({ text: 'Une erreur est survenue, veuillez réessayer plus tard ou envoyer un mail à clairelise@avancer-avec.fr', type: 'error' });
+            if ('json_error' in result) {
+                console.log("json_error : " + result.json_error);
+            }
+            else if ('curl_error' in result) {
+                console.log("curl_error : " + result.curl_error);
+            }
+            else if ('systeme_io_error' in result) {
+                console.log("systeme_io_error : " + result.systeme_io_error);
+            } 
+            else if ('mail_error' in result) {
+                console.log("mail_error : " + result.mail_error);
+            } 
+            else if ('form_error' in result) {
+                console.log("form_error : " + result.form_error);
+            } 
+            else {
+                console.log("something wrong in the answer");
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+        setIsSubmitting(false);
+    };
+
+    useEffect(() => {
+        if (popupMessage) {
+            const timer = setTimeout(() => {
+                setPopupMessage(null);
+            }, 4000);
+            return () => {clearTimeout(timer)};
+        }
+    }, [popupMessage]);
+
+    return (
+        <>
+        <form className={styles.form} onSubmit={(e) => void handleSubmit(e)}>
+            {intialFormType === '' && <div className={styles.border}>
+                <select 
+                    name="formType"
+                    value={formData.formType}
+                    onChange={handleChange}
+                    required>
+                    <option value="defaultMessage">Envoyer un message</option>
+                    <option value="firstMeeting">Premier rendez-vous gratuit de 30 minutes</option>
+                    <option hidden value="mailSubscription">S'inscrire à "Mes petits pas pour avancer</option>
+                </select>
+            </div>}
+            <div className={styles.border}>
+                <input 
+                    type="email" 
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    placeholder='email' 
+                    required 
+                />
+            </div>
+            <div className={styles.border}>
+                <input 
+                    type="text"
+                    name="firstName" 
+                    value={formData.firstName}
+                    onChange={handleChange}
+                    placeholder='prénom' 
+                    required 
+                />
+            </div>
+            <div className={styles.border}>
+                <input 
+                    type="text" 
+                    name="surname" 
+                    value={formData.surname}
+                    onChange={handleChange}
+                    placeholder='nom (facultatif)'
+                />
+            </div>
+            {formData.formType==='defaultMessage' && <div className={styles.border}>
+                <input 
+                    type="text" 
+                    name="object" 
+                    value={formData.object}
+                    onChange={handleChange}
+                    placeholder='objet' 
+                    required 
+                />
+            </div>}
+            {formData.formType==='defaultMessage' && <div className={`${styles.mailContent} ${styles.border}`}>
+                <textarea 
+                    name="mailContent" 
+                    value={formData.mailContent}
+                    onChange={handleChange}
+                    placeholder='Que voulez-vous dire ?' 
+                    required 
+                >
+
+                </textarea>
+            </div>}
+            {formData.formType==='firstMeeting' && formData.questions.map((q) => (
+                <div key={q.id} className={`${styles.border} ${styles.questionRow}`}>
+                    <QuestionTextArea 
+                        question={q.question} 
+                        value={q.answer} 
+                        name={`question-${q.id}`} 
+                        handleChange={handleChange}
+                    />
+                </div>
+            ))}
+
+            <div className={styles.border}>
+                {formData.formType==='firstMeeting' && <div className={styles.submitSpeech}>Des réponses honnêtes à ce questionnaire m’aideront à vous proposer ce qui vous correspondra le mieux. </div>}
+                <input className={styles.submitButton} type="submit" value={formData.formType === 'mailSubscription' ? "s'inscrire" : "Envoyer"} disabled={isSubmitting} />
+            </div>
+        </form>
+        {popupMessage && (
+            <div className={`${styles.popupMessage} ${styles.border}`} style={{
+                backgroundColor: popupMessage.type === 'error' ? 'red' : '#00f000',
+            }}>
+                {popupMessage.text}
+            </div>
+        )}
+        </>
+    );
+};
+
+export default Multiform;
