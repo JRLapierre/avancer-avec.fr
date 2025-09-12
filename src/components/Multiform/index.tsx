@@ -12,6 +12,7 @@ const Multiform : React.FC<MultiformProps> = ({ intialFormType = ''}) => {
     | { json_error: string }
     | { curl_error: string }
     | { mail_error: string }
+    | { form_error: string }
     | { systeme_io_error: string }
     | { success: string }
 
@@ -79,7 +80,7 @@ const Multiform : React.FC<MultiformProps> = ({ intialFormType = ''}) => {
             if ('json_error' in result) {
                 console.log("json_error : " + result.json_error);
             }
-            if ('curl_error' in result) {
+            else if ('curl_error' in result) {
                 console.log("curl_error : " + result.curl_error);
             }
             else if ('systeme_io_error' in result) {
@@ -87,6 +88,9 @@ const Multiform : React.FC<MultiformProps> = ({ intialFormType = ''}) => {
             } 
             else if ('mail_error' in result) {
                 console.log("mail_error : " + result.mail_error);
+            } 
+            else if ('form_error' in result) {
+                console.log("form_error : " + result.form_error);
             } 
             else {
                 console.log("something wrong in the answer");
@@ -117,7 +121,7 @@ const Multiform : React.FC<MultiformProps> = ({ intialFormType = ''}) => {
                     required>
                     <option value="defaultMessage">Envoyer un message</option>
                     <option value="firstMeeting">Premier rendez-vous gratuit de 30 minutes</option>
-                    <option value="mailSubscription">S'inscrire à "Mes petits pas pour avancer</option>
+                    <option hidden value="mailSubscription">S'inscrire à "Mes petits pas pour avancer</option>
                 </select>
             </div>}
             <div className={styles.border}>
