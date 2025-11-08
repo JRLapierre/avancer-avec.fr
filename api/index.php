@@ -3,11 +3,12 @@ declare(strict_types=1);
 header('Content-Type: application/json; charset=utf-8');
 
 require_once 'vendor/autoload.php';
-require_once 'systeme_io.php';
-require_once 'mail.php';
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
+
+require_once 'systeme_io.php';
+require_once 'mail.php';
 
 //get the data from the form
 $data = json_decode(file_get_contents('php://input'), true);

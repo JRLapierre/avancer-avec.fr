@@ -2,11 +2,11 @@
 declare(strict_types=1);
 
 //constants
-const BASE_URL = "https://api.systeme.io/api/";
-const BASE_HEADER = [
+const BASE_URL = 'https://api.systeme.io/api/';
+define( 'BASE_HEADER' , [
     "X-API-Key: ".$_ENV['SYSTEMEIO_API_KEY'],
     "accept: application/json",
-];
+]);
 const COMMON_CURL_OPTIONS = [
     CURLOPT_RETURNTRANSFER => true,
     CURLOPT_ENCODING => "",
@@ -80,7 +80,7 @@ function sendSystemeIoPostRequest(string $email, array $fieldsData): array {
         CURLOPT_URL => BASE_URL."contacts",
         CURLOPT_CUSTOMREQUEST => "POST",
         CURLOPT_POSTFIELDS => json_encode($fieldsData),
-        CURLOPT_HTTPHEADER => BASE_HEADER + ['content-type: application/json']
+        CURLOPT_HTTPHEADER => array_merge(BASE_HEADER, ['content-type: application/json'])
     ];
     return sendSystemeIoRequest($postOptions);
 }
@@ -96,7 +96,7 @@ function sendSystemeIoPatchRequest(array $fieldsData, int $id): array {
         CURLOPT_URL => BASE_URL . "contacts/$id",
         CURLOPT_CUSTOMREQUEST => "PATCH",
         CURLOPT_POSTFIELDS => json_encode($fieldsData),
-        CURLOPT_HTTPHEADER => BASE_HEADER + ["content-type: application/merge-patch+json"]
+        CURLOPT_HTTPHEADER => array_merge(BASE_HEADER, ["content-type: application/merge-patch+json"])
     ];
     return sendSystemeIoRequest($patchOptions);
 }
@@ -110,8 +110,8 @@ function addTagContact(int $contactId) {
     $postOptions = COMMON_CURL_OPTIONS + [
         CURLOPT_URL => BASE_URL."contacts/$contactId/tags",
         CURLOPT_CUSTOMREQUEST => "POST",
-        CURLOPT_POSTFIELDS => json_encode(['tagId' => $_ENV['TAG_CAMPAING_ID']]),
-        CURLOPT_HTTPHEADER => BASE_HEADER + ['content-type: application/json']
+        CURLOPT_POSTFIELDS => json_encode(['tagId' => (int) $_ENV['TAG_CAMPAING_ID']]),
+        CURLOPT_HTTPHEADER => array_merge(BASE_HEADER, ['content-type: application/json'])
     ];
     return sendSystemeIoRequest($postOptions);
 }
@@ -133,7 +133,7 @@ function sendSystemeIoRequest(array $curlOptions): array {
 
     $results = json_decode($response, true);
     //detail is the identifier for the error messages from system.io
-    if (array_key_exists('detail', $results)) {return ["systeme_io_error" => $results['detail']];}
+    if ($response != null && array_key_exists('detail', $results)) {return ["systeme_io_error" => $results['detail']];}
 
     return ['success' => $results];
 }
