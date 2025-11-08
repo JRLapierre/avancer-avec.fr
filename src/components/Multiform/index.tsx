@@ -121,7 +121,7 @@ const Multiform : React.FC<MultiformProps> = ({ intialFormType = ''}) => {
                     required>
                     <option value="defaultMessage">Envoyer un message</option>
                     <option value="firstMeeting">Premier rendez-vous gratuit de 30 minutes</option>
-                    <option hidden value="mailSubscription">S'inscrire à "Mes petits pas pour avancer</option>
+                    <option value="mailSubscription">S'inscrire à "Mes petits pas pour avancer"</option>
                 </select>
             </div>}
             <div className={styles.border}>
