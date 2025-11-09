@@ -74,7 +74,7 @@ const Multiform : React.FC<MultiformProps> = ({ intialFormType = ''}) => {
             if ('success' in result) {
                 if (formData.formType == 'defaultMessage') setPopupMessage({ text: 'Votre message a bien été envoyé', type: 'success' });
                 else if (formData.formType == 'firstMeeting') setPopupMessage({ text: 'Votre réponses ont bien été envoyées', type: 'success' });
-                else if (formData.formType == 'mailSubscription') setPopupMessage({ text: 'Votre inscription a bien été faite', type: 'success' });
+                else setPopupMessage({ text: 'Votre inscription a bien été faite', type: 'success' });
                 
                 setIsSubmitting(false);
                 return;
