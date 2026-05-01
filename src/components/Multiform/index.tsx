@@ -1,5 +1,5 @@
 import styles from './styles.module.css'
-import { useState, useEffect } from "react";
+import { useState, useEffect, type SubmitEvent } from "react";
 import QuestionTextArea from "../QuestionTextArea";
 
 interface MultiformProps {
@@ -54,7 +54,7 @@ const Multiform : React.FC<MultiformProps> = ({ intialFormType = ''}) => {
         else setFormData(prev => ({ ...prev, [name]: value }));
     };
 
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: SubmitEvent<HTMLFormElement>) => {
         e.preventDefault();
         setIsSubmitting(true);
         try {
@@ -72,7 +72,10 @@ const Multiform : React.FC<MultiformProps> = ({ intialFormType = ''}) => {
 
             const result = (await response.json() as ApiResponse);
             if ('success' in result) {
-                setPopupMessage({ text: 'Votre message a bien été envoyé', type: 'success' });
+                if (formData.formType == 'defaultMessage') setPopupMessage({ text: 'Votre message a bien été envoyé', type: 'success' });
+                else if (formData.formType == 'firstMeeting') setPopupMessage({ text: 'Votre réponses ont bien été envoyées', type: 'success' });
+                else setPopupMessage({ text: 'Votre inscription a bien été faite', type: 'success' });
+                
                 setIsSubmitting(false);
                 return;
             }
@@ -121,7 +124,7 @@ const Multiform : React.FC<MultiformProps> = ({ intialFormType = ''}) => {
                     required>
                     <option value="defaultMessage">Envoyer un message</option>
                     <option value="firstMeeting">Premier rendez-vous gratuit de 30 minutes</option>
-                    <option hidden value="mailSubscription">S'inscrire à "Mes petits pas pour avancer</option>
+                    <option value="mailSubscription">S'inscrire à "Mes petits pas pour avancer"</option>
                 </select>
             </div>}
             <div className={styles.border}>
