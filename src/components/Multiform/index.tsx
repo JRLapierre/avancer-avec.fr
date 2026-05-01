@@ -1,5 +1,5 @@
 import styles from './styles.module.css'
-import { useState, useEffect } from "react";
+import { useState, useEffect, type SubmitEvent } from "react";
 import QuestionTextArea from "../QuestionTextArea";
 
 interface MultiformProps {
@@ -54,7 +54,7 @@ const Multiform : React.FC<MultiformProps> = ({ intialFormType = ''}) => {
         else setFormData(prev => ({ ...prev, [name]: value }));
     };
 
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: SubmitEvent<HTMLFormElement>) => {
         e.preventDefault();
         setIsSubmitting(true);
         try {
