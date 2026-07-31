@@ -1,0 +1,39 @@
+.border {
+    width: min(1000px, 100%);
+    margin-bottom: 1rem;
+    border-style: solid;
+    border-color: #f57200;
+    border-radius: 30px;
+    border-width: 3px;
+    background-color: #ffd087;
+    padding: 15px;
+}
+
+h3 {
+    margin-top: 0;
+}
+
+.content {
+    overflow: hidden;
+    position: relative;
+    transition: max-height .3s ease;
+}
+
+.overflowing::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 40px;
+    background: linear-gradient(transparent, #ffd087);
+    pointer-events: none;
+}
+
+.toggle {
+    cursor: pointer;
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: black;
+}
