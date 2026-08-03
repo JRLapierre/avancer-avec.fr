@@ -5,7 +5,7 @@ const testimonies = () => {
     const comments = [ //TODO get automatically from google doc
         {
             author: "Sophie",
-            content: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dicta, conMerci Claire-Lise pour ta douceur et ton écoute. Ton accompagnement m’a vraiment aidée à y voir plus clair dans ma vie perso."
+            content: "Merci Claire-Lise pour ta douceur et ton écoute. Ton accompagnement m’a vraiment aidée à y voir plus clair dans ma vie perso."
         },
         {
             author: "Cécile",
@@ -21,7 +21,8 @@ const testimonies = () => {
         <h1>Témoignages</h1>
         {comments.map((comment, index) => (
             <Comment
-                key={index}
+                // eslint-disable-next-line react-x/no-array-index-key
+                key={index} //TODO replace with hash given by api
                 author={comment.author}
                 content={comment.content}
             />

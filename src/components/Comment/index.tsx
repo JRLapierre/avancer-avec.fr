@@ -19,10 +19,10 @@ const Comment = ({author, content}: CommentProps) => {
     }
 
     useEffect(() => {
-        const observer = new ResizeObserver(() => checkOverfolw());
+        const observer = new ResizeObserver(() => {checkOverfolw()});
         if (contentRef.current) observer.observe(contentRef.current);
         checkOverfolw();
-        return () => observer.disconnect();
+        return () => {observer.disconnect()};
     }, [expanded]);
     
     return <div className={styles.border}>
@@ -35,7 +35,7 @@ const Comment = ({author, content}: CommentProps) => {
             `}
             style={{
                 maxHeight: expanded
-                    ? `${contentRef.current?.scrollHeight}px`
+                    ? `${(contentRef.current?.scrollHeight ?? 1000).toString()}px`
                     : "120px"
             }}
         >
@@ -43,8 +43,9 @@ const Comment = ({author, content}: CommentProps) => {
         </div>
         {((isOverflowing || expanded) &&
             <button
+                type="button"
                 className={styles.toggle}
-                onClick={() => setExpanded(!expanded)}
+                onClick={() => {setExpanded(!expanded)}}
             >
                 {expanded ? "▲" : "▼"}
             </button>
