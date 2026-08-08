@@ -10,6 +10,7 @@ import Blog from './pages/Blog/index.tsx';
 import Contact from './pages/Contact/index.tsx';
 import LegalMentions from './pages/LegalMentions/index.tsx';
 import { NAV_BARS_HEIGHT } from './constants.ts';
+import Testimonies from './pages/Testimonies/index.tsx';
 
 document.documentElement.style.setProperty('--nav-bars-height', `${NAV_BARS_HEIGHT.toString()}px`)
 
@@ -22,6 +23,7 @@ createRoot(document.getElementById('root')!).render(
           <Route index element={<Home />} />
           <Route path="presentation" element={<Presentation />} />
           <Route path="blog" element={<Blog />} />
+          <Route path="testimonies" element={<Testimonies />} />
           <Route path='contact' element={<Contact />} />
           <Route path='legal mentions' element={<LegalMentions />} />
           <Route path="*" element={<NoPage />} />

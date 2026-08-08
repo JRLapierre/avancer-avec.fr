@@ -38,11 +38,12 @@ const Header = () => {
                     <Link to="/">accueil</Link>
                     <Link to="/presentation">Présentation</Link>
                     <Link to="/blog">Blog</Link>
+                    <Link to="/testimonies">Témoignages</Link>
                     <Link to="/contact">Me contacter</Link>
                 </div>}
             </nav>
         </header>
     )
-}
+} //TODO bad display in narrow screens
 
 export default Header;
