@@ -17,8 +17,9 @@ const Blog = () => {
         <iframe className={styles.border}
             src="https://www.youtube.com/embed/SuN0DVOmxks"
             title="Comment être en accord avec soi ? Anecdote de coach et de prof"
-            allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allow="clipboard-write; encrypted-media; picture-in-picture"
             allowFullScreen
+            sandbox="allow-same-origin allow-scripts allow-popups allow-forms" // eslint-disable-line react-dom/no-unsafe-iframe-sandbox
         />
 
         <div className={styles.imageBloc}>
