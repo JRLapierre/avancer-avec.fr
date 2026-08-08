@@ -1,11 +1,7 @@
 <?php
 declare(strict_types=1);
-header('Content-Type: application/json; charset=utf-8');
 
-require_once 'vendor/autoload.php';
-
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
-$dotenv->load();
+require_once 'bootstrap.php';
 
 require_once 'systeme_io.php';
 require_once 'mail.php';
@@ -20,6 +16,10 @@ if (json_last_error() !== JSON_ERROR_NONE) {
     exit;
 }
 
+//TODO separate response when it is about fetching datas from the google sheet
+//TODO make a cache to hold the datas for one day
+
+//TODO identify when it is about contact/inscriptions
 //save the informations in the contacts
 $contactResult = manageContactInfos($data);
 //an error happend while trying to save the contact

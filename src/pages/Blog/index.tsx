@@ -13,6 +13,15 @@ const Blog = () => {
 
     return (
         <>
+        <h1>Comment être en accord avec soi ? Anecdote de coach et de prof</h1>
+        <iframe className={styles.border}
+            src="https://www.youtube.com/embed/SuN0DVOmxks"
+            title="Comment être en accord avec soi ? Anecdote de coach et de prof"
+            allow="clipboard-write; encrypted-media; picture-in-picture"
+            allowFullScreen
+            sandbox="allow-same-origin allow-scripts allow-popups allow-forms" // eslint-disable-line react-dom/no-unsafe-iframe-sandbox
+        />
+
         <div className={styles.imageBloc}>
             <h1>Petit pas pour avancer</h1>
             <p className={styles.quote}>
