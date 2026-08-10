@@ -2,6 +2,7 @@ import styles from "./styles.module.css"
 import bridge from "../../assets/pages/Blog/bridge-1837210_1280.jpg"
 import { useClickOutside } from "../../hooks/useClickOutside";
 import Multiform from "../../components/Multiform";
+import YouTube from "react-youtube";
 
 const Blog = () => {
 
@@ -14,13 +15,12 @@ const Blog = () => {
     return (
         <>
         <h1>Comment être en accord avec soi ? Anecdote de coach et de prof</h1>
-        <iframe className={styles.border}
-            src="https://www.youtube.com/embed/SuN0DVOmxks"
-            title="Comment être en accord avec soi ? Anecdote de coach et de prof"
-            allow="clipboard-write; encrypted-media; picture-in-picture"
-            allowFullScreen
-            sandbox="allow-same-origin allow-scripts allow-popups allow-forms" // eslint-disable-line react-dom/no-unsafe-iframe-sandbox
-        />
+        <div className={`${styles.border} ${styles.maxWidth}`}>
+            <YouTube
+                videoId="SuN0DVOmxks"
+                title="Comment être en accord avec soi ? Anecdote de coach et de prof"
+            />
+        </div>
 
         <div className={styles.imageBloc}>
             <h1>Petit pas pour avancer</h1>
