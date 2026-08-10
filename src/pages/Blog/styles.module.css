@@ -1,8 +1,3 @@
-iframe {
-    width: 100%;
-    aspect-ratio: 16 / 9;
-}
-
 .imageBloc {
     display: flex;
     flex-direction: column;
@@ -25,6 +20,10 @@ iframe {
     font-style: italic;
 }
 
+.maxWidth {
+    width: 100%;
+}
+
 .border {
     max-width: min(800px, 100%);
     margin-bottom: 1rem;
@@ -34,6 +33,14 @@ iframe {
     border-width: 3px;
     background-color: #ffd087;
     padding: 10px;
+}
+
+.border iframe {
+    display: block;
+    aspect-ratio: 16 / 9;
+    border-radius: 20px;
+    width: 100%;
+    height: 100%;
 }
 
 .border img {
