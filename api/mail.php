@@ -20,14 +20,6 @@ function createMailBody($data) {
             "<p><strong>Message :</strong></p>
             <p>" . nl2br(htmlspecialchars($data['mailContent'])) . "</p>";
     }
-    elseif ($data['formType'] == 'firstMeeting') {
-        $body = $baseBody;
-        foreach ($data['questions'] as $question) {
-            $body .="<p><strong>".htmlspecialchars($question['question'])."</strong></p>
-                <p>".nl2br(htmlspecialchars($question['answer']))."</p>";
-        }
-        return $body;
-    }
     elseif ($data['formType'] == 'mailSubscription') {
         return $baseBody;
     }
@@ -48,9 +40,6 @@ function sendMailToHost($data): array {
         return ["form_error" => "problème dans le formulaire"];
     }
     $object = $data['object'];
-    if ($data['formType'] == 'firstMeeting') {
-        $object = "demande de premier rendez-vous gratuit";
-    }
     if ($data['formType'] == 'mailSubscription') {
         $object = "Nouvelle inscription à \"Mes petits pas pour avancer\"";
     }
