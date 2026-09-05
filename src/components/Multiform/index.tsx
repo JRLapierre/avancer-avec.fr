@@ -1,6 +1,5 @@
 import styles from './styles.module.css'
 import { useState, useEffect, type SubmitEvent } from "react";
-import QuestionTextArea from "../QuestionTextArea";
 
 interface MultiformProps {
     intialFormType?: '' | 'defaultMessage' | 'firstMeeting' | 'mailSubscription';
@@ -23,17 +22,6 @@ const Multiform : React.FC<MultiformProps> = ({ intialFormType = ''}) => {
         surname: '',
         object: '',
         mailContent: '',
-        questions : [
-            {id: '1', question: 'Comment êtes-vous arrivés sur ce site ?', answer: ''},
-            {id: '2', question: 'Quelle est votre difficulté principale ?', answer: ''},
-            {id: '3', question: 'Quelle est votre difficulté secondaire ?', answer: ''},
-            {id: '4', question: 'Pourquoi recherchez-vous un accompagnement ?', answer: ''},
-            {id: '5', question: 'Quelles seraient les conséquences pour vous si votre vie continuait sans changements ?', answer: ''},
-            {id: '6', question: 'Quelles seraient les conséquences pour votre entourage si votre vie continuait sans changements ?', answer: ''},
-            {id: '7', question: 'Êtes-vous prêts à vous inscrire dans un processus vers le changement désiré ?', answer: ''},
-            {id: '8', question: 'Que désirez-vous au fond ?', answer: ''},
-            {id: '9', question: 'Quelles sont vos disponibilités pour cet entretien ?', answer: ''},
-        ]
     });
 
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -42,20 +30,16 @@ const Multiform : React.FC<MultiformProps> = ({ intialFormType = ''}) => {
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
-        if (name.startsWith('question-')) {
-            const id = name.split('-')[1];
-            setFormData(prev => ({
-                ...prev,
-                questions: prev.questions.map(q =>
-                    q.id === id ? { ...q, answer: value } : q
-                )
-            }));
-        }
-        else setFormData(prev => ({ ...prev, [name]: value }));
+        setFormData(prev => ({ ...prev, [name]: value }));
     };
 
     const handleSubmit = async (e: SubmitEvent<HTMLFormElement>) => {
         e.preventDefault();
+        //short-circuit in case of redirect
+        if (formData.formType === "firstMeeting") {
+            window.open("https://claireliselapierre.systeme.io/cf9d214c", "_blank");
+            return;
+        }
         setIsSubmitting(true);
         try {
             const response = await fetch('/api/index.php', {
@@ -73,8 +57,7 @@ const Multiform : React.FC<MultiformProps> = ({ intialFormType = ''}) => {
             const result = (await response.json() as ApiResponse);
             if ('success' in result) {
                 if (formData.formType == 'defaultMessage') setPopupMessage({ text: 'Votre message a bien été envoyé', type: 'success' });
-                else if (formData.formType == 'firstMeeting') setPopupMessage({ text: 'Votre réponses ont bien été envoyées', type: 'success' });
-                else setPopupMessage({ text: 'Votre inscription a bien été faite', type: 'success' });
+                else setPopupMessage({ text: 'Votre inscription a bien été faite', type: 'success' }); // mailSubscription
                 
                 setIsSubmitting(false);
                 return;
@@ -127,7 +110,7 @@ const Multiform : React.FC<MultiformProps> = ({ intialFormType = ''}) => {
                     <option value="mailSubscription">S'inscrire à "Mes petits pas pour avancer"</option>
                 </select>
             </div>}
-            <div className={styles.border}>
+            {formData.formType!=='firstMeeting' && <div className={styles.border}>
                 <input 
                     type="email" 
                     name="email"
@@ -136,8 +119,8 @@ const Multiform : React.FC<MultiformProps> = ({ intialFormType = ''}) => {
                     placeholder='email' 
                     required 
                 />
-            </div>
-            <div className={styles.border}>
+            </div>}
+            {formData.formType!=='firstMeeting' && <div className={styles.border}>
                 <input 
                     type="text"
                     name="firstName" 
@@ -146,8 +129,8 @@ const Multiform : React.FC<MultiformProps> = ({ intialFormType = ''}) => {
                     placeholder='prénom' 
                     required 
                 />
-            </div>
-            <div className={styles.border}>
+            </div>}
+            {formData.formType!=='firstMeeting' && <div className={styles.border}>
                 <input 
                     type="text" 
                     name="surname" 
@@ -155,7 +138,7 @@ const Multiform : React.FC<MultiformProps> = ({ intialFormType = ''}) => {
                     onChange={handleChange}
                     placeholder='nom (facultatif)'
                 />
-            </div>
+            </div>}
             {formData.formType==='defaultMessage' && <div className={styles.border}>
                 <input 
                     type="text" 
@@ -177,20 +160,14 @@ const Multiform : React.FC<MultiformProps> = ({ intialFormType = ''}) => {
 
                 </textarea>
             </div>}
-            {formData.formType==='firstMeeting' && formData.questions.map((q) => (
-                <div key={q.id} className={`${styles.border} ${styles.questionRow}`}>
-                    <QuestionTextArea 
-                        question={q.question} 
-                        value={q.answer} 
-                        name={`question-${q.id}`} 
-                        handleChange={handleChange}
-                    />
-                </div>
-            ))}
 
-            <div className={styles.border}>
-                {formData.formType==='firstMeeting' && <div className={styles.submitSpeech}>Des réponses honnêtes à ce questionnaire m’aideront à vous proposer ce qui vous correspondra le mieux. </div>}
-                <input className={styles.submitButton} type="submit" value={formData.formType === 'mailSubscription' ? "s'inscrire" : "Envoyer"} disabled={isSubmitting} />
+            <div className={styles.border}>                
+                <input className={styles.submitButton} type="submit" disabled={isSubmitting} value={
+                        formData.formType === 'mailSubscription' ? "S'inscrire" :
+                        formData.formType === 'firstMeeting' ? "Prendre rendez-vous" :
+                        "Envoyer"
+                    }
+                />
             </div>
         </form>
         {popupMessage && (

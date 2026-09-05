@@ -1,8 +1,0 @@
-.question {
-    font-size: 1.1em;
-    font-weight: bold;
-}
-
-.answer {
-    field-sizing: content; /*doesn't work everywhere, useAutoResideTextArea has been created to compensate*/
-}
