@@ -52,8 +52,8 @@ const Blog = () => {
             <div className={styles.border}>
                 <p>Je vous ai préparé une douzaine de “petits pas pour avancer”. En voulez-vous? Je vous les envoie gratuitement deux fois par semaine. Inscrivez-vous.</p>
             </div>
-            <div className={styles.border}>
-                <button className={styles.submitButton} type="submit" onClick={toggleMenu}>Recevoir d'autres petits pas pour avancer</button>
+            <div className={`${styles.border} ${styles.orangeborder}`}>
+                <button className={styles.submitButton} type="submit" onClick={toggleMenu}>Cliquez ici pour recevoir d'autres petits pas pour avancer</button>
             </div>
         </div>
         {isSubscriptionVisible && <div ref={subscriptionRef} className={`${styles.subscription} ${styles.border}`}>
