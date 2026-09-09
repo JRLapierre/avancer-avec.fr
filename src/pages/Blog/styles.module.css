@@ -35,6 +35,14 @@
     padding: 10px;
 }
 
+.orangeborder {
+    border-color: #f57200;
+}
+
+.orangeborder:hover {
+    background-color: #e7bd79;
+}
+
 .border iframe {
     display: block;
     aspect-ratio: 16 / 9;
